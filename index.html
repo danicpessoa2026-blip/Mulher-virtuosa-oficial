@@ -3,13 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌸 Mulher de Provérbios</title>
-<link rel="manifest" href="/manifest.json" id="pwa-manifest">
-<meta name="theme-color" content="#c9728a">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Meu Planner">
-<link rel="apple-touch-icon" href="/icon-192.png">
+<title>🌸 Mulher Virtuosa</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Quicksand:wght@300;400;500;600&display=swap');
@@ -23,13 +17,11 @@
   *{margin:0;padding:0;box-sizing:border-box;}
   body{font-family:'Quicksand',sans-serif;background:linear-gradient(135deg,#ffeef4 0%,#f5e6ff 50%,#ffeef4 100%);min-height:100vh;color:var(--text);}
 
-  /* LOADING */
   #loading-screen{position:fixed;inset:0;background:linear-gradient(135deg,#ffeef4,#f5e6ff);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;}
   .loading-flower{font-size:4rem;animation:spin 2s linear infinite;}
   @keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
   .loading-text{font-family:'Dancing Script',cursive;font-size:1.5rem;color:var(--rose-dark);margin-top:16px;}
 
-  /* LOGIN */
   #login-screen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
   .login-card{background:var(--white);border-radius:30px;padding:50px 40px;max-width:420px;width:100%;box-shadow:0 20px 60px var(--shadow);text-align:center;position:relative;overflow:hidden;}
   .login-card::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--rose),var(--lilac),var(--gold),var(--rose));}
@@ -49,7 +41,6 @@
   .login-error{background:#ffe4e8;color:#c0394b;padding:10px 15px;border-radius:12px;font-size:.9rem;margin-bottom:15px;display:none;}
   .sync-badge{display:inline-flex;align-items:center;gap:6px;background:#e8f5e9;color:#2e7d32;border-radius:20px;padding:4px 12px;font-size:0.75rem;font-weight:600;margin-bottom:16px;}
 
-  /* APP */
   #app{display:none;min-height:100vh;}
   .header{background:white;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px var(--shadow);position:sticky;top:0;z-index:100;}
   .header-left{display:flex;align-items:center;gap:12px;}
@@ -57,12 +48,6 @@
   .sync-dot{width:8px;height:8px;border-radius:50%;background:#4caf50;}
   .sync-dot.syncing{background:var(--gold);animation:pulse 1s infinite;}
   .sync-dot.error{background:#f44336;}
-  #autosave-indicator{font-size:0.75rem;color:var(--rose-dark);font-weight:600;opacity:0;transition:opacity 0.4s;margin-left:8px;}
-  #install-banner{display:none;position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--rose-dark),var(--lilac));color:white;padding:14px 20px;align-items:center;justify-content:space-between;gap:12px;z-index:300;box-shadow:0 -4px 20px rgba(0,0,0,0.2);}
-  #install-banner p{font-size:0.88rem;font-weight:600;flex:1;}
-  #install-banner p span{display:block;font-size:0.75rem;opacity:0.85;font-weight:400;}
-  .btn-install{background:white;color:var(--rose-dark);border:none;padding:10px 18px;border-radius:20px;font-family:'Quicksand',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;white-space:nowrap;}
-  .btn-dismiss{background:rgba(255,255,255,0.2);border:none;color:white;padding:8px 12px;border-radius:14px;font-size:0.8rem;cursor:pointer;white-space:nowrap;}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
   .header-user{font-size:.85rem;color:var(--text-light);display:flex;align-items:center;gap:10px;}
   .btn-logout{background:var(--rose-light);color:var(--rose-dark);border:none;padding:7px 14px;border-radius:20px;font-family:'Quicksand',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;}
@@ -77,12 +62,11 @@
   .section-title{font-family:'Dancing Script',cursive;font-size:2rem;color:var(--rose-dark);}
   .section-sub{font-size:.85rem;color:var(--text-light);}
 
-  /* CARDS */
   .card{background:white;border-radius:24px;padding:28px;box-shadow:0 8px 30px var(--shadow);margin-bottom:20px;position:relative;overflow:hidden;}
   .card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--rose),var(--lilac),var(--gold));}
   .card-title{font-family:'Dancing Script',cursive;font-size:1.4rem;color:var(--rose-dark);margin-bottom:14px;}
 
-  /* ADORAÇÃO */
+  /* DEVOCIONAL */
   .devotion-card{background:linear-gradient(135deg,#fff8e7,#fff0f5);border:2px solid var(--gold);border-radius:24px;padding:28px;margin-bottom:20px;position:relative;overflow:hidden;}
   .devotion-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--gold),var(--rose),var(--lilac));}
   .devotion-icon{font-size:2rem;margin-bottom:8px;}
@@ -102,9 +86,14 @@
   .bible-check-row input[type=checkbox]{width:18px;height:18px;accent-color:var(--rose-dark);cursor:pointer;}
   .bible-check-row label{font-size:.85rem;color:#7a50a0;font-weight:600;cursor:pointer;}
 
+  /* LOUVOR DO DIA */
+  .louvor-card{background:linear-gradient(135deg,#f0fff5,#e8f8ff);border:2px solid #81c784;border-radius:20px;padding:20px;margin-bottom:20px;}
+  .louvor-card-title{font-family:'Dancing Script',cursive;font-size:1.3rem;color:#2e7d32;margin-bottom:8px;}
+  .louvor-verse{font-style:italic;font-size:.9rem;color:#1b5e20;line-height:1.7;background:rgba(255,255,255,.6);border-radius:12px;padding:14px 16px;border-left:4px solid #81c784;}
+  .louvor-ref{font-size:.78rem;color:#2e7d32;font-weight:700;margin-top:8px;font-style:normal;}
+
   /* AGENDA HORÁRIA */
-  .agenda-label{font-size:.85rem;font-weight:700;color:var(--rose-dark);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
-  .hour-slot-v{display:flex;align-items:stretch;gap:0;margin-bottom:6px;border-radius:12px;overflow:hidden;border:1.5px solid var(--rose-light);background:var(--cream);transition:border-color .2s;}
+  .hour-slot-v{display:flex;align-items:stretch;margin-bottom:6px;border-radius:12px;overflow:hidden;border:1.5px solid var(--rose-light);background:var(--cream);transition:border-color .2s;}
   .hour-slot-v:focus-within{border-color:var(--rose);background:white;}
   .hour-label-v{background:linear-gradient(135deg,var(--rose-light),var(--lilac-light));color:var(--rose-dark);font-size:.8rem;font-weight:700;padding:10px 12px;min-width:60px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .hour-input-v{flex:1;border:none;background:transparent;font-family:'Quicksand',sans-serif;font-size:.88rem;color:var(--text);outline:none;padding:10px 14px;}
@@ -169,6 +158,7 @@
   .month-goal-card{background:white;border-radius:20px;padding:20px;box-shadow:0 4px 15px var(--shadow);border-top:4px solid var(--rose-light);}
   .month-goal-card.lilac-top{border-top-color:var(--lilac);}
   .month-goal-card.gold-top{border-top-color:var(--gold);}
+  .month-goal-card.green-top{border-top-color:#81c784;}
   .month-goal-label{font-size:.85rem;font-weight:700;color:var(--rose-dark);margin-bottom:8px;}
   .month-goal-ta{width:100%;border:1.5px solid var(--rose-light);border-radius:12px;padding:10px;font-family:'Quicksand',sans-serif;font-size:.85rem;color:var(--text);background:var(--cream);resize:vertical;min-height:90px;outline:none;}
   .month-goal-ta:focus{border-color:var(--rose);background:white;}
@@ -205,7 +195,6 @@
   .modal-ta{width:100%;border:2px solid var(--rose-light);border-radius:12px;padding:12px;font-family:'Quicksand',sans-serif;font-size:.9rem;color:var(--text);background:var(--cream);resize:vertical;outline:none;min-height:80px;margin-bottom:12px;}
   .modal-ta:focus{border-color:var(--rose);background:white;}
 
-  /* PETALS */
   .petals{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
   .petal{position:absolute;opacity:.12;animation:fallPetal linear infinite;}
   @keyframes fallPetal{0%{transform:translateY(-20px) rotate(0deg);opacity:.12;}100%{transform:translateY(100vh) rotate(360deg);opacity:0;}}
@@ -222,22 +211,18 @@
 
 <div class="petals" id="petals"></div>
 
-<!-- LOADING -->
 <div id="loading-screen">
   <div class="loading-flower">🌸</div>
   <div class="loading-text">Carregando seu planner...</div>
 </div>
 
-<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-card">
-    <div class="login-decoration">🌸</div>
-    <h1 class="login-title">Mulher de Provérbios</h1>
-    <p class="login-subtitle">Mais valiosa que os corais</p>
+    <div class="login-decoration">✝️</div>
+    <h1 class="login-title">Mulher Virtuosa</h1>
+    <p class="login-subtitle">"Mulher virtuosa, quem a achará? O seu valor muito excede ao de rubis." — Pv 31:10</p>
     <div class="sync-badge">☁️ Sincronizado em todos os dispositivos</div>
-
     <div class="login-error" id="login-error"></div>
-
     <div id="form-login">
       <div class="input-group">
         <label>✨ Usuário</label>
@@ -247,10 +232,9 @@
         <label>🔑 Senha</label>
         <input type="password" id="login-pass" placeholder="Sua senha..." autocomplete="current-password">
       </div>
-      <button class="btn-primary" id="btn-login" onclick="doLogin()">Planejar 🌷</button>
+      <button class="btn-primary" id="btn-login" onclick="doLogin()">Entrar 🌸</button>
       <p class="login-toggle">Primeira vez? <span onclick="showRegister()">Criar conta</span></p>
     </div>
-
     <div id="form-register" style="display:none">
       <div class="input-group">
         <label>🌸 Seu nome</label>
@@ -270,13 +254,11 @@
   </div>
 </div>
 
-<!-- APP -->
 <div id="app">
   <div class="header">
     <div class="header-left">
-      <div class="header-title">🌸 Mulher de Provérbios</div>
+      <div class="header-title">🌸 Mulher Virtuosa</div>
       <div class="sync-dot" id="sync-dot" title="Sincronizado"></div>
-      <span id="autosave-indicator"></span>
     </div>
     <div class="header-user">
       <span id="header-username"></span>
@@ -305,13 +287,24 @@
       <div class="diary-date-picker">
         📅 <input type="date" id="diary-date" onchange="loadDiary()">
       </div>
-      <div class="devotion-card" id="devotion-card">
-        <div class="devotion-icon">🕊️</div>
-        <div class="devotion-title">Adoração Matinal</div>
+
+      <!-- Devocional -->
+      <div class="devotion-card">
+        <div class="devotion-icon">✝️</div>
+        <div class="devotion-title">Devocional do Dia</div>
         <div class="devotion-ref" id="devotion-ref"></div>
         <div class="devotion-verse" id="devotion-verse"></div>
         <div class="devotion-reflection" id="devotion-reflection"></div>
       </div>
+
+      <!-- Louvor -->
+      <div class="louvor-card">
+        <div class="louvor-card-title">🎵 Louvor & Oração</div>
+        <div class="louvor-verse" id="louvor-verse"></div>
+        <div class="louvor-ref" id="louvor-ref"></div>
+      </div>
+
+      <!-- Leitura Bíblica -->
       <div class="bible-card">
         <div class="bible-card-title">📚 Leitura Bíblica — 1 ano</div>
         <div class="bible-progress">
@@ -325,23 +318,35 @@
           <label for="bible-done">Li a passagem de hoje ✓</label>
         </div>
       </div>
+
+      <!-- Agenda horária -->
       <div class="card">
         <div class="card-title">🕐 Agenda do Dia</div>
         <div id="diary-hours"></div>
       </div>
+
+      <!-- Humor -->
       <div class="mood-card">
         <div class="mood-card-title">🌡️ Como você está hoje?</div>
         <div class="mood-thermometer" id="mood-thermometer"></div>
         <div id="mood-selected-label" style="text-align:center;font-size:.82rem;color:var(--text-light);margin-top:8px;"></div>
       </div>
+
+      <!-- Diário -->
       <div class="card">
         <div class="diary-date-title" id="diary-date-title"></div>
         <div class="diary-section-label">📝 Como foi meu dia?</div>
-        <textarea class="diary-textarea" id="diary-text" rows="5" placeholder="Conta tudo... foi um dia especial? 🌸" oninput="autoSave('diary',saveDiary)"></textarea>
-        <div class="diary-section-label">💖 Gratidão do dia</div>
-        <textarea class="diary-textarea" id="diary-gratitude" rows="3" placeholder="3 coisas pelas quais sou grata hoje... ✨" oninput="autoSave('diary',saveDiary)"></textarea>
-        <div class="diary-section-label">🌙 Meta para amanhã</div>
-        <textarea class="diary-textarea" id="diary-goal" rows="2" placeholder="O que quero conquistar amanhã? 🌷" oninput="autoSave('diary',saveDiary)"></textarea>
+        <textarea class="diary-textarea" id="diary-text" rows="5" placeholder="Compartilhe com Deus e com você mesma como foi seu dia... 🌸"></textarea>
+        <div class="diary-section-label">💖 Gratidão ao Senhor</div>
+        <textarea class="diary-textarea" id="diary-gratitude" rows="3" placeholder="3 bênçãos que recebi hoje... ✨"></textarea>
+        <div class="diary-section-label">🙏 Pedido de oração</div>
+        <textarea class="diary-textarea" id="diary-prayer" rows="2" placeholder="O que quero levar ao Senhor em oração? 🌷"></textarea>
+        <div class="diary-section-label">🌙 Propósito para amanhã</div>
+        <textarea class="diary-textarea" id="diary-goal" rows="2" placeholder="O que Deus está me chamando a fazer amanhã? 🌺"></textarea>
+        <div style="display:flex;align-items:center;">
+          <button class="btn-save" onclick="saveDiary()">💾 Salvar meu dia</button>
+          <span class="save-msg" id="save-msg">✅ Salvo!</span>
+        </div>
       </div>
     </div>
 
@@ -351,7 +356,7 @@
         <span class="section-icon">🌼</span>
         <div>
           <div class="section-title">Planejamento Semanal</div>
-          <div class="section-sub">Organização e propósito para cada dia 🌸</div>
+          <div class="section-sub">Cada dia é uma nova mercê do Senhor 🌸</div>
         </div>
       </div>
       <div class="week-nav">
@@ -360,14 +365,22 @@
         <button onclick="nextWeek()">Próxima ›</button>
       </div>
       <div class="card" style="margin-bottom:20px;">
-        <div class="card-title">🎯 Objetivos da Semana</div>
-        <textarea class="obj-textarea" id="week-objectives" rows="4" placeholder="O que quero alcançar essa semana?&#10;• Objetivo 1&#10;• Objetivo 2" oninput="autoSave('week-obj',saveWeekObjectives)"></textarea>
+        <div class="card-title">🎯 Propósitos da Semana</div>
+        <textarea class="obj-textarea" id="week-objectives" rows="4" placeholder="O que Deus colocou no meu coração para essa semana?&#10;• Propósito 1&#10;• Propósito 2&#10;• Propósito 3"></textarea>
+        <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end;">
+          <button class="btn-save" style="padding:10px 20px;font-size:.85rem;" onclick="saveWeekObjectives()">Salvar propósitos</button>
+          <span class="save-msg" id="week-obj-msg">✅ Salvo!</span>
+        </div>
       </div>
       <div class="bible-msg-box" style="margin-bottom:20px;">
         <div id="week-verse-text"></div>
         <div class="bible-msg-ref" id="week-verse-ref"></div>
       </div>
       <div class="week-grid" id="week-grid"></div>
+      <div style="display:flex;justify-content:center;margin-top:4px;">
+        <button class="btn-save" onclick="saveWeekNotes()">💾 Salvar semana</button>
+        <span class="save-msg" id="week-save-msg" style="margin-left:12px;">✅ Salvo!</span>
+      </div>
     </div>
 
     <!-- MÊS -->
@@ -393,20 +406,24 @@
       <div class="month-goals-grid">
         <div class="month-goal-card">
           <div class="month-goal-label">🎯 Metas do mês</div>
-          <textarea class="month-goal-ta" id="month-goals" placeholder="O que quero alcançar esse mês..." oninput="autoSave('month',saveMonthNotes)"></textarea>
+          <textarea class="month-goal-ta" id="month-goals" placeholder="O que Deus colocou no meu coração para esse mês..."></textarea>
         </div>
-        <div class="month-goal-card lilac-top">
-          <div class="month-goal-label">💜 Prioridades espirituais</div>
-          <textarea class="month-goal-ta" id="month-spiritual" placeholder="Reuniões, pregação, estudo..." oninput="autoSave('month',saveMonthNotes)"></textarea>
+        <div class="month-goal-card green-top">
+          <div class="month-goal-label">✝️ Compromissos com a Igreja</div>
+          <textarea class="month-goal-ta" id="month-spiritual" placeholder="Cultos, células, voluntariado, dízimo, evangelismo..."></textarea>
         </div>
         <div class="month-goal-card gold-top">
-          <div class="month-goal-label">✨ Gratidão do mês</div>
-          <textarea class="month-goal-ta" id="month-gratitude" placeholder="O que Jeová fez por mim esse mês..." oninput="autoSave('month',saveMonthNotes)"></textarea>
+          <div class="month-goal-label">🙏 Graças ao Senhor</div>
+          <textarea class="month-goal-ta" id="month-gratitude" placeholder="O que Deus fez por mim esse mês..."></textarea>
         </div>
-        <div class="month-goal-card">
-          <div class="month-goal-label">💰 Finanças & Compras</div>
-          <textarea class="month-goal-ta" id="month-finance" placeholder="Orçamento, contas, compras planejadas..." oninput="autoSave('month',saveMonthNotes)"></textarea>
+        <div class="month-goal-card lilac-top">
+          <div class="month-goal-label">💰 Mordomia & Finanças</div>
+          <textarea class="month-goal-ta" id="month-finance" placeholder="Dízimo, ofertas, orçamento, contas..."></textarea>
         </div>
+      </div>
+      <div style="display:flex;justify-content:center;margin-top:16px;">
+        <button class="btn-save" onclick="saveMonthNotes()">💾 Salvar mês</button>
+        <span class="save-msg" id="month-save-msg" style="margin-left:12px;">✅ Salvo!</span>
       </div>
     </div>
 
@@ -430,34 +447,29 @@
       </div>
       <div class="year-summary-grid">
         <div class="month-goal-card">
-          <div class="month-goal-label">🌟 Sonhos & Metas do Ano</div>
-          <textarea class="month-goal-ta" style="min-height:120px;" id="year-dreams" placeholder="O que quero alcançar esse ano?" oninput="autoSave('annual',saveAnnual)"></textarea>
+          <div class="month-goal-label">🌟 Sonhos & Visão do Ano</div>
+          <textarea class="month-goal-ta" style="min-height:120px;" id="year-dreams" placeholder="O que Deus tem falado ao meu coração para esse ano?"></textarea>
         </div>
-        <div class="month-goal-card lilac-top">
-          <div class="month-goal-label">🕊️ Metas Espirituais</div>
-          <textarea class="month-goal-ta" style="min-height:120px;" id="year-spiritual" placeholder="Ler a Bíblia inteira, pregação..." oninput="autoSave('annual',saveAnnual)"></textarea>
+        <div class="month-goal-card green-top">
+          <div class="month-goal-label">✝️ Metas Espirituais</div>
+          <textarea class="month-goal-ta" style="min-height:120px;" id="year-spiritual" placeholder="Ler a Bíblia, jejuns, servir na igreja, evangelismo..."></textarea>
         </div>
         <div class="month-goal-card gold-top">
-          <div class="month-goal-label">💰 Metas Financeiras</div>
-          <textarea class="month-goal-ta" style="min-height:120px;" id="year-finance" placeholder="Economias, investimentos..." oninput="autoSave('annual',saveAnnual)"></textarea>
+          <div class="month-goal-label">💰 Mordomia Financeira</div>
+          <textarea class="month-goal-ta" style="min-height:120px;" id="year-finance" placeholder="Dízimo, poupança, investimentos, bênçãos financeiras..."></textarea>
         </div>
-        <div class="month-goal-card">
+        <div class="month-goal-card lilac-top">
           <div class="month-goal-label">💖 Família & Relacionamentos</div>
-          <textarea class="month-goal-ta" style="min-height:120px;" id="year-family" placeholder="O que quero para minha família..." oninput="autoSave('annual',saveAnnual)"></textarea>
+          <textarea class="month-goal-ta" style="min-height:120px;" id="year-family" placeholder="O que Deus quer para minha família esse ano..."></textarea>
         </div>
+      </div>
+      <div style="display:flex;justify-content:center;margin-top:16px;">
+        <button class="btn-save" onclick="saveAnnual()">💾 Salvar planejamento anual</button>
+        <span class="save-msg" id="annual-save-msg" style="margin-left:12px;">✅ Salvo!</span>
       </div>
     </div>
 
   </div>
-</div>
-
-<!-- INSTALL BANNER -->
-<div id="install-banner">
-  <p>📱 Instalar como app
-    <span>Acesse pelo ícone na tela inicial — celular, tablet ou computador!</span>
-  </p>
-  <button class="btn-install" onclick="installPWA()">✨ Instalar</button>
-  <button class="btn-dismiss" onclick="dismissInstall()">Agora não</button>
 </div>
 
 <!-- MODAL Eventos -->
@@ -467,7 +479,7 @@
     <div class="modal-title" id="modal-title"></div>
     <div class="modal-date-sub" id="modal-date-sub"></div>
     <div style="margin-bottom:12px;">
-      <div class="diary-section-label">💕 Eventos & Lembretes</div>
+      <div class="diary-section-label">💕 Eventos & Compromissos</div>
       <div class="event-list" id="event-list"></div>
       <div class="event-add">
         <input type="text" id="new-event-input" placeholder="Adicionar evento..." onkeydown="if(event.key==='Enter')addEvent()">
@@ -476,7 +488,8 @@
     </div>
     <div style="margin-top:16px;">
       <div class="diary-section-label">📝 Anotação do dia</div>
-      <textarea class="modal-ta" id="modal-note" placeholder="Anotações sobre esse dia..." oninput="autoSave('modal-note',saveModalNoteAuto)"></textarea>
+      <textarea class="modal-ta" id="modal-note" placeholder="Anotações sobre esse dia..."></textarea>
+      <button class="btn-save" style="font-size:.85rem;padding:10px 20px;" onclick="saveModalNote()">Salvar anotação</button>
     </div>
   </div>
 </div>
@@ -498,9 +511,9 @@
 // ========================
 // SUPABASE
 // ========================
-const SUPA_URL = 'https://bjsuidpeckpboqbsbmpm.supabase.co';
-const SUPA_KEY = 'sb_publishable_nk9UP7oA59b1I5LnDD55Xw_aeqfrxkA';
-const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+const SUPA_URL='https://bjsuidpeckpboqbsbmpm.supabase.co';
+const SUPA_KEY='sb_publishable_nk9UP7oA59b1I5LnDD55Xw_aeqfrxkA';
+const sb=supabase.createClient(SUPA_URL,SUPA_KEY);
 
 // ========================
 // DADOS ESTÁTICOS
@@ -508,115 +521,104 @@ const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
 const MONTHS=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DAYS_LONG=['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
 const DAYS_SHORT=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-const HOURS=['05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30'];
+const HOURS=['05:00','06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00'];
 
+// ========================
+// DEVOCIONAIS EVANGÉLICOS
+// (Bíblia da Mulher Virtuosa — ARC/NVI)
+// ========================
 const DEVOTIONS=[
-  {ref:'Salmo 90:17',verse:'"Que a bondade de Jeová, nosso Deus, esteja sobre nós; e torna próspero o trabalho de nossas mãos."',reflection:'Que bênção começar o dia reconhecendo que Jeová acompanha cada tarefa nossa! Peça que Ele abençoe seus planos de hoje.'},
-  {ref:'Provérbios 31:25',verse:'"Força e dignidade são suas vestes, e ela ri-se do dia futuro."',reflection:'A Mulher Virtuosa não teme o amanhã porque confia em Jeová. Que você também enfrente este dia com coragem e alegria.'},
-  {ref:'Isaías 40:31',verse:'"Mas os que aguardam Jeová renovarão seu vigor. Subirão com asas como águias."',reflection:'Confie no poder de Jeová hoje. Nos momentos de cansaço, lembre-se desta promessa preciosa.'},
-  {ref:'Filipenses 4:6, 7',verse:'"Não se aflijam por coisa alguma, mas em tudo fazei as vossas petições chegarem a Deus... e a paz de Deus guardará os vossos corações."',reflection:'Entregue suas preocupações de hoje a Jeová em oração. Sua paz ultrapassa toda compreensão humana.'},
-  {ref:'Provérbios 3:5, 6',verse:'"Confie em Jeová com todo o teu coração e não te apoies no teu próprio entendimento."',reflection:'Antes de planejar seu dia, consulte Jeová. Confiar nEle é a sabedoria mais preciosa.'},
-  {ref:'Josué 1:9',verse:'"Sê forte e corajoso. Não fiques consternado nem te atemorizes, porque Jeová, teu Deus, estará contigo."',reflection:'Você não está sozinha hoje! Jeová está ao seu lado em cada passo, em cada desafio.'},
-  {ref:'Salmo 37:5',verse:'"Entrega o teu caminho a Jeová; confie também nEle, e Ele atuará."',reflection:'Deposite seus planos, seus sonhos e seus desafios nas mãos de Jeová. Ele agirá no tempo certo.'},
-  {ref:'Colossenses 3:23',verse:'"Tudo o que fizerem, façam-no de alma, como se fosse para Jeová e não para os homens."',reflection:'Cada tarefa de hoje, grande ou pequena, pode ser feita como um ato de adoração a Jeová.'},
-  {ref:'Miquéias 6:8',verse:'"Agir com justiça, amar bondade leal e ser modesto ao andar com o seu Deus."',reflection:'Três coisas simples e profundas para guiar seu dia: justiça, bondade e humildade diante de Jeová.'},
-  {ref:'Provérbios 31:26',verse:'"Ela abre a sua boca com sabedoria, e instrução bondosa está em sua língua."',reflection:'Que suas palavras hoje sejam cheias de graça e sabedoria, um reflexo do amor de Jeová.'},
-  {ref:'Salmo 46:1',verse:'"Deus é para nós um refúgio e uma força, uma ajuda muito presente nas angústias."',reflection:'Em qualquer situação difícil que surgir hoje, Jeová está acessível. Corra para Ele em oração.'},
-  {ref:'Tiago 1:17',verse:'"Todo dom bom e todo presente perfeito vem do alto, pois desce do Pai das luzes celestes."',reflection:'Cada coisa boa na sua vida vem de Jeová. Comece o dia com gratidão por Suas dádivas.'},
-  {ref:'Mateus 6:33',verse:'"Continuai a buscar primeiro o reino e a justiça de Deus, e todas essas outras coisas vos serão acrescentadas."',reflection:'Coloque Jeová e Seu reino no centro das suas prioridades hoje.'},
-  {ref:'Salmo 23:1',verse:'"Jeová é meu pastor. Nada me faltará."',reflection:'Que declaração poderosa! Jeová cuida de você como um pastor cuida de sua ovelha.'},
-  {ref:'Provérbios 31:30',verse:'"A formosura é enganosa e a beleza é vã, mas a mulher que teme a Jeová é que será digna de louvor."',reflection:'Seu verdadeiro valor está no seu relacionamento com Jeová. Isso é o que torna você verdadeiramente preciosa.'},
-  {ref:'Gálatas 5:22, 23',verse:'"O fruto do espírito é: amor, alegria, paz, longanimidade, amabilidade, bondade, fé, mansidão e domínio próprio."',reflection:'Peça a Jeová que o fruto do espírito se manifeste em você hoje.'},
-  {ref:'Provérbios 16:3',verse:'"Entrega à Jeová o que quer que faças, e os teus planos serão estabelecidos."',reflection:'Antes de começar seu dia, entregue cada plano e projeto a Jeová.'},
-  {ref:'Salmo 119:105',verse:'"A tua palavra é uma lâmpada para o meu pé e uma luz para o meu caminho."',reflection:'A Palavra de Jeová ilumina cada passo. Que a leitura da Bíblia de hoje guie suas decisões.'},
-  {ref:'Hebreus 13:5',verse:'"Nunca te deixarei, nem de modo algum te abandonarei."',reflection:'Jeová fez essa promessa. Não importa o que o dia trouxer, você nunca está sozinha.'},
-  {ref:'Salmo 55:22',verse:'"Lança o teu fardo sobre Jeová, e Ele te sustentará."',reflection:'Qualquer peso que você esteja carregando, Jeová quer recebê-lo. Ele a sustentará.'},
-  {ref:'Provérbios 31:17',verse:'"Cinge os seus lombos de força e torna vigorosos os seus braços."',reflection:'A mulher de Provérbios 31 é diligente e forte. Que Jeová lhe dê forças para tudo que precisa fazer hoje.'},
-  {ref:'Salmo 139:14',verse:'"Ação de graças te darei por eu ser assombrosamente formada de modo maravilhoso."',reflection:'Você foi criada de forma única e especial por Jeová. Celebre hoje quem Ele fez você ser.'},
-  {ref:'Neemias 8:10',verse:'"A alegria de Jeová é a vossa fortaleza."',reflection:'A alegria que vem de Jeová não depende das circunstâncias. É uma fortaleza interior preciosa.'},
-  {ref:'Romanos 12:12',verse:'"Regozijai-vos na esperança. Suportai na tribulação. Permanecei constantes na oração."',reflection:'Três chaves para o dia: alegria pela esperança, perseverança e oração constante.'},
-  {ref:'Salmo 94:19',verse:'"Quando os pensamentos ansiosos dentro de mim se multiplicam, seus consolos alegram a minha alma."',reflection:'Nas horas de ansiedade, recorra à Palavra de Jeová. Seus consolos trazem alegria real.'},
-  {ref:'João 13:34',verse:'"Amai-vos uns aos outros, assim como eu vos amei."',reflection:'Que amor você pode demonstrar hoje para as pessoas ao seu redor, como reflexo do amor de Jeová?'},
-  {ref:'I Coríntios 15:58',verse:'"O trabalho de vocês não é em vão na ligação com o Senhor."',reflection:'Tudo o que você faz em harmonia com Jeová tem valor eterno. Seu esforço não é em vão.'},
-  {ref:'Romanos 8:38, 39',verse:'"Nem morte, nem vida... nem nenhuma outra criatura poderá nos separar do amor de Deus."',reflection:'O amor de Jeová por você é inabalável. Deixe essa certeza encher seu coração de paz hoje.'},
-  {ref:'Salmo 37:4',verse:'"Encontra teu prazer em Jeová, e Ele te dará as petições do teu coração."',reflection:'Quando Jeová é nossa maior alegria, nossos desejos se alinham com os Seus.'},
-  {ref:'Provérbios 31:28',verse:'"Seus filhos levantam-se e proclamam-na feliz; seu marido também, e ele a elogia."',reflection:'Seu impacto na família e na comunidade ao redor é um fruto do seu amor a Jeová.'},
+  {ref:'Provérbios 31:10 — ARC',verse:'"Mulher virtuosa, quem a achará? O seu valor muito excede ao de rubis."',reflection:'Você é uma mulher de valor! Deus te vê preciosa e única. Que esse dia comece com a certeza do quanto você vale aos olhos do Senhor.'},
+  {ref:'Jeremias 29:11 — NVI',verse:'"Porque eu bem sei os pensamentos que tenho a vosso respeito, diz o Senhor; pensamentos de paz, e não de mal, para vos dar o fim que esperais."',reflection:'Deus tem um plano perfeito para a sua vida. Confie nEle hoje, em cada detalhe da sua rotina.'},
+  {ref:'Isaías 40:31 — ARC',verse:'"Mas os que esperam no Senhor renovarão as forças, subirão com asas como águias; correrão e não se cansarão; caminharão e não se fatigarão."',reflection:'Nos momentos de cansaço, o Senhor renova suas forças. Espere nEle hoje!'},
+  {ref:'Filipenses 4:13 — ARC',verse:'"Posso tudo naquele que me fortalece."',reflection:'Não há desafio grande demais quando Cristo está com você. Que essa verdade sustente cada passo do seu dia.'},
+  {ref:'Salmos 46:1 — NVI',verse:'"Deus é o nosso refúgio e a nossa força, socorro bem-presente nas tribulações."',reflection:'Em qualquer momento difícil hoje, corra para o Senhor. Ele é seu abrigo seguro.'},
+  {ref:'Provérbios 3:5-6 — ARC',verse:'"Confia no Senhor de todo o teu coração, e não te estribes no teu próprio entendimento. Reconhece-o em todos os teus caminhos, e ele endireitará as tuas veredas."',reflection:'Antes de fazer seus planos hoje, reconheça o Senhor. Ele guiará cada passo com sabedoria.'},
+  {ref:'Salmos 23:1 — ARC',verse:'"O Senhor é o meu pastor; nada me faltará."',reflection:'Que declaração poderosa! Com o Bom Pastor ao seu lado, você não tem do que carecer hoje.'},
+  {ref:'Mateus 6:33 — NVI',verse:'"Buscai em primeiro lugar o reino de Deus e a sua justiça, e todas essas coisas vos serão acrescentadas."',reflection:'Quando Deus é a prioridade, tudo mais se encaixa. Comece seu dia buscando o Senhor.'},
+  {ref:'Romanos 8:28 — ARC',verse:'"E sabemos que todas as coisas contribuem juntamente para o bem daqueles que amam a Deus."',reflection:'Até as situações difíceis de hoje têm um propósito nas mãos de Deus. Confie nEle!'},
+  {ref:'Salmos 37:4 — ARC',verse:'"Deleita-te também no Senhor, e ele te concederá os desejos do teu coração."',reflection:'Quando nossa maior alegria é o Senhor, nossos desejos se alinham com os Seus. Que delícia viver assim!'},
+  {ref:'Provérbios 31:25 — ARC',verse:'"A força e a honra são o seu traje; e se alegra com o dia futuro."',reflection:'A mulher virtuosa não teme o amanhã! Ela se veste de força e dignidade. Vista-se assim hoje!'},
+  {ref:'Josué 1:9 — NVI',verse:'"Não fui eu que ordenei a você? Seja forte e corajoso! Não se apavore nem desanime, pois o Senhor, o seu Deus, estará com você por onde quer que você andar."',reflection:'O Senhor vai com você! Seja corajosa hoje — Ele já cuidou de tudo.'},
+  {ref:'Lamentações 3:22-23 — ARC',verse:'"As misericórdias do Senhor são a causa de não sermos consumidos, porque as suas misericórdias não têm fim. Renovam-se cada manhã; grande é a tua fidelidade."',reflection:'Cada manhã traz novas misericórdias! Que gratidão começar mais um dia com a fidelidade de Deus.'},
+  {ref:'Efésios 2:10 — NVI',verse:'"Pois somos criação de Deus, criados em Cristo Jesus para fazer boas obras, as quais Deus preparou de antemão para que nós as praticássemos."',reflection:'Você foi criada com propósito! As boas obras do seu dia já foram preparadas por Deus. Caminhe nelas!'},
+  {ref:'Salmos 139:14 — NVI',verse:'"Eu te louvo porque sou feita de modo tão admirável e maravilhoso. Suas obras são maravilhosas, e eu sei muito bem disso."',reflection:'Você é obra-prima de Deus! Hoje, aceite e celebre quem o Senhor fez você ser.'},
+  {ref:'Tiago 1:17 — ARC',verse:'"Toda a boa dádiva e todo o dom perfeito vêm do alto, descendo do Pai das luzes."',reflection:'Cada coisa boa na sua vida é presente de Deus. Que gratidão transborde do seu coração hoje!'},
+  {ref:'Provérbios 31:26 — ARC',verse:'"Abre a boca com sabedoria; e a lei da beneficência está na sua língua."',reflection:'Que suas palavras hoje sejam tempero de graça para quem as ouvir. Fale com sabedoria e amor!'},
+  {ref:'Gálatas 5:22-23 — NVI',verse:'"O fruto do Espírito é: amor, alegria, paz, paciência, amabilidade, bondade, fidelidade, mansidão e domínio próprio."',reflection:'Peça ao Espírito Santo que esse fruto se manifeste em você hoje em cada situação.'},
+  {ref:'Colossenses 3:23 — NVI',verse:'"Tudo o que fizerem, façam de todo o coração, como para o Senhor, e não para os homens."',reflection:'Cada tarefa de hoje — pequena ou grande — pode ser oferecida ao Senhor como ato de adoração.'},
+  {ref:'Isaías 43:1 — NVI',verse:'"Não tema, pois eu o remi; eu o chamei pelo nome; você é meu!"',reflection:'O Senhor te conhece pelo nome. Você pertence a Ele! Que segurança para enfrentar o dia de hoje.'},
+  {ref:'Hebreus 11:1 — ARC',verse:'"Ora, a fé é o firme fundamento das coisas que se esperam, e a prova das coisas que não se veem."',reflection:'A fé é o que nos move quando os olhos não enxergam. Caminhe pela fé hoje!'},
+  {ref:'Salmos 119:105 — ARC',verse:'"Lâmpada para os meus pés é a tua palavra, e luz para o meu caminho."',reflection:'A Palavra de Deus ilumina cada decisão. Que sua leitura de hoje guie seus passos.'},
+  {ref:'Provérbios 31:28 — ARC',verse:'"Levantam-se seus filhos e chamam-na bem-aventurada; e seu marido também a louva."',reflection:'Seu impacto vai além do que você vê. A vida virtuosa deixa marcas eternas na família e ao redor.'},
+  {ref:'Neemias 8:10 — ARC',verse:'"A alegria do Senhor é a vossa força."',reflection:'A alegria que vem do Senhor não depende das circunstâncias. É uma fortaleza interior! Alegre-se nEle hoje.'},
+  {ref:'Filipenses 4:6-7 — NVI',verse:'"Não andem ansiosos por coisa alguma, mas em tudo, pela oração e súplicas, com ação de graças, apresentem seus pedidos a Deus."',reflection:'Traga todas as preocupações de hoje para Deus em oração. A paz que excede todo entendimento é sua!'},
+  {ref:'II Coríntios 12:9 — ARC',verse:'"A minha graça te basta, porque o meu poder se aperfeiçoa na fraqueza."',reflection:'Nas suas limitações de hoje, a graça de Deus é suficiente. Você não precisa ser perfeita — só precisa de Cristo!'},
+  {ref:'Provérbios 31:30 — ARC',verse:'"Enganosa é a graça, e vã a formosura; mas a mulher que teme o Senhor, essa será louvada."',reflection:'O que torna você verdadeiramente bela é o temor ao Senhor. Isso é o que dura para sempre!'},
+  {ref:'Salmos 55:22 — NVI',verse:'"Entregue ao Senhor o seu fardo, e ele o sustentará; jamais permitirá que o justo seja abalado."',reflection:'Qualquer peso que você carrega hoje, o Senhor quer carregar com você. Lance o seu fardo nEle!'},
+  {ref:'João 15:5 — NVI',verse:'"Eu sou a videira; vocês são os ramos. Se alguém permanecer em mim e eu nele, esse dará muito fruto."',reflection:'Permanecer em Jesus é a chave para uma vida frutífera. Abide nEle hoje!'},
+  {ref:'Romanos 12:1 — NVI',verse:'"Portanto, irmãos, rogo-lhes pelas misericórdias de Deus que se ofereçam em sacrifício vivo, santo e agradável a Deus. Este é o culto racional de vocês."',reflection:'Sua vida inteira pode ser adoração! Ofereça o seu dia como sacrifício vivo ao Senhor hoje.'},
 ];
 
-const BIBLE_PLAN=[
-  ["Gênesis 1–3","A criação e o início da humanidade"],["Gênesis 4–7","Caim e Abel; Noé e o dilúvio"],["Gênesis 8–11","O arco-íris; Torre de Babel"],["Gênesis 12–15","Abraão é chamado"],["Gênesis 16–19","Hagar e Ismael; Sodoma"],["Gênesis 20–23","Isaque; Sara falece"],["Gênesis 24–26","Rebeca; Esaú e Jacó"],["Gênesis 27–29","Jacó e Raquel"],["Gênesis 30–32","Os filhos de Jacó"],["Gênesis 33–36","Reconciliação; Esaú"],["Gênesis 37–40","José e seus irmãos"],["Gênesis 41–43","José no Egito"],["Gênesis 44–47","Reunião da família"],["Gênesis 48–50","Últimas bênçãos; morte de José"],["Êxodo 1–4","Moisés; a sarça ardente"],["Êxodo 5–8","As pragas do Egito"],["Êxodo 9–12","A Páscoa; saída do Egito"],["Êxodo 13–16","Mar Vermelho; maná"],["Êxodo 17–20","Dez Mandamentos"],["Êxodo 21–24","Leis de Jeová"],["Êxodo 25–28","O tabernáculo"],["Êxodo 29–32","O bezerro de ouro"],["Êxodo 33–36","Renovação da aliança"],["Êxodo 37–40","Conclusão do tabernáculo"],["Levítico 1–4","Leis de oferendas"],["Levítico 5–8","Sacrifícios e sacerdotes"],["Levítico 9–12","Consagração; leis alimentares"],["Levítico 13–15","Leis de pureza"],["Levítico 16–18","Dia de Expiação"],["Levítico 19–21","Leis de santidade"],["Levítico 22–24","Festas sagradas"],["Levítico 25–27","Ano do Jubileu"],["Números 1–3","Censo do povo"],["Números 4–6","Deveres; voto de nazireu"],["Números 7–9","Dedicação; a Páscoa"],["Números 10–12","Murmúrios no deserto"],["Números 13–15","Os espias; rebeldia"],["Números 16–18","Rebelião de Corá"],["Números 19–21","A serpente de bronze"],["Números 22–24","Balaão e a jumenta"],["Números 25–27","Idolatria; novo censo"],["Números 28–30","Festas e votos"],["Números 31–33","Guerras; acampamentos"],["Números 34–36","Divisão da terra"],["Deuteronômio 1–3","Revisão da história"],["Deuteronômio 4–6","O maior mandamento"],["Deuteronômio 7–9","Advertências de Moisés"],["Deuteronômio 10–12","Amor a Jeová"],["Deuteronômio 13–16","Festas e dízimos"],["Deuteronômio 17–19","Reis; profetas; cidades"],["Deuteronômio 20–23","Leis de guerra e família"],["Deuteronômio 24–27","Diversas leis"],["Deuteronômio 28–30","Bênçãos e maldições"],["Deuteronômio 31–34","Morte de Moisés"],["Josué 1–4","Entrada em Canaã; Jordão"],["Josué 5–8","Jericó; Ai"],["Josué 9–11","Alianças; conquistas"],["Josué 12–15","Divisão da terra"],["Josué 16–19","Territórios das tribos"],["Josué 20–22","Cidades de refúgio"],["Josué 23–24","Discurso de Josué"],["Juízes 1–3","Primeiros juízes"],["Juízes 4–6","Débora; Gideão"],["Juízes 7–9","Vitória de Gideão"],["Juízes 10–12","Jefté"],["Juízes 13–16","Sansão"],["Juízes 17–21","Micá; guerra civil"],["Rute 1–4","A história de Rute"],["I Samuel 1–3","Samuel é dedicado"],["I Samuel 4–7","A arca; retorno"],["I Samuel 8–11","Saul é escolhido rei"],["I Samuel 12–14","Saul desobedece"],["I Samuel 15–17","Davi e Golias"],["I Samuel 18–20","Davi e Jônatas"],["I Samuel 21–24","Davi foge de Saul"],["I Samuel 25–27","Abigail; Davi entre filisteus"],["I Samuel 28–31","Morte de Saul"],["II Samuel 1–4","Davi torna-se rei"],["II Samuel 5–7","Arca em Jerusalém"],["II Samuel 8–10","Vitórias de Davi"],["II Samuel 11–13","Davi e Bate-Seba"],["II Samuel 14–16","Absalão"],["II Samuel 17–20","Revolta; Davi retorna"],["II Samuel 21–24","Últimas palavras de Davi"],["I Reis 1–3","Salomão torna-se rei"],["I Reis 4–6","Sabedoria; o templo"],["I Reis 7–9","Dedicação do templo"],["I Reis 10–12","Rainha de Sabá; divisão"],["I Reis 13–15","Profetas"],["I Reis 16–18","Elias; chuva"],["I Reis 19–21","Fuga de Elias; Nabote"],["I Reis 22","Morte de Acabe"],["II Reis 1–3","Elias sobe ao céu; Eliseu"],["II Reis 4–6","Milagres de Eliseu"],["II Reis 7–9","Cerco de Samaria; Jeú"],["II Reis 10–12","Jeú; Joás"],["II Reis 13–15","Reis de Israel"],["II Reis 16–18","Queda de Samaria"],["II Reis 19–21","Ezequias; Isaías"],["II Reis 22–25","Josias; queda de Jerusalém"],["I Crônicas 1–5","Genealogias"],["I Crônicas 6–10","Tribos; morte de Saul"],["I Crônicas 11–15","Davi e a arca"],["I Crônicas 16–20","Pacto davídico; guerras"],["I Crônicas 21–25","Preparativos para o templo"],["I Crônicas 26–29","Organização; morte de Davi"],["II Crônicas 1–5","Salomão e o templo"],["II Crônicas 6–9","Dedicação; riqueza de Salomão"],["II Crônicas 10–14","Divisão; reis de Judá"],["II Crônicas 15–20","Josafá"],["II Crônicas 21–25","Reis; Joiada"],["II Crônicas 26–29","Ezequias"],["II Crônicas 30–33","Reformas"],["II Crônicas 34–36","Últimos reis; exílio"],["Esdras 1–4","Retorno do exílio"],["Esdras 5–7","Templo reconstruído"],["Esdras 8–10","Reforma de Esdras"],["Neemias 1–4","Reconstrução dos muros"],["Neemias 5–7","Oposição superada"],["Neemias 8–10","Renovação da aliança"],["Neemias 11–13","Dedicação; reformas"],["Ester 1–5","Ester e Mardoqueu"],["Ester 6–10","Salvação do povo judeu"],["Jó 1–5","Aflições de Jó"],["Jó 6–10","Respostas de Jó"],["Jó 11–15","Discursos dos amigos"],["Jó 16–20","Jó clama por resposta"],["Jó 21–25","Jó questiona Deus"],["Jó 26–30","Sabedoria; lamento de Jó"],["Jó 31–34","Defesa final; Eliú"],["Jó 35–42","Jeová responde; restauração"],["Salmo 1–10","Confiança em Jeová"],["Salmo 11–20","Proteção divina"],["Salmo 21–30","O pastor e o rei"],["Salmo 31–40","Louvor e lamento"],["Salmo 41–50","Sede de Deus"],["Salmo 51–60","Arrependimento; fé"],["Salmo 61–70","Esperança em aflição"],["Salmo 71–80","Hinos de louvor"],["Salmo 81–90","Eternidade de Jeová"],["Salmo 91–100","Louvor e confiança"],["Salmo 101–108","Misericórdia de Jeová"],["Salmo 109–118","O Hallel"],["Salmo 119:1–88","A Palavra de Deus"],["Salmo 119:89–176","A Palavra de Deus (cont.)"],["Salmo 120–135","Salmos de subida; adoração"],["Salmo 136–150","Louvor eterno; hinos finais"],["Provérbios 1–5","Sabedoria acima de tudo"],["Provérbios 6–9","Sabedoria e pureza"],["Provérbios 10–14","Sabedoria prática"],["Provérbios 15–18","O coração e a língua"],["Provérbios 19–22","Conduta sábia"],["Provérbios 23–26","Mais ensinamentos"],["Provérbios 27–29","Justiça e liderança"],["Provérbios 30–31","A mulher virtuosa"],["Eclesiastes 1–6","Vaidade das vaidades"],["Eclesiastes 7–12","Temer a Deus"],["Cantares 1–8","Amor e devoção"],["Isaías 1–6","Visão de Isaías"],["Isaías 7–12","O ramo de Jessé"],["Isaías 13–18","Julgamentos sobre nações"],["Isaías 19–24","O apocalipse de Isaías"],["Isaías 25–30","Ais a Israel"],["Isaías 31–36","Promessas de restauração"],["Isaías 37–42","Consolo ao povo"],["Isaías 43–48","Israel, servo de Jeová"],["Isaías 49–54","O servo sofredor"],["Isaías 55–60","Convite de Jeová"],["Isaías 61–66","Nova criação"],["Jeremias 1–5","Chamado de Jeremias"],["Jeremias 6–10","Pecado de Judá"],["Jeremias 11–15","Lamentos de Jeremias"],["Jeremias 16–20","Mensagens de julgamento"],["Jeremias 21–25","Falsos profetas"],["Jeremias 26–30","O jugo de Babilônia"],["Jeremias 31–33","Nova aliança"],["Jeremias 34–38","Destruição de Jerusalém"],["Jeremias 39–44","Fuga para o Egito"],["Jeremias 45–52","Queda de Babilônia"],["Lamentações 1–5","Lamentos e esperança"],["Ezequiel 1–5","Visões e missão de Ezequiel"],["Ezequiel 6–11","A glória de Jeová"],["Ezequiel 12–17","Falsas profecias; alegorias"],["Ezequiel 18–22","Pecados de Israel"],["Ezequiel 23–28","Tiro e Sidom"],["Ezequiel 29–33","O Egito; sentinela"],["Ezequiel 34–39","O pastor; Gogue"],["Ezequiel 40–48","O novo templo"],["Daniel 1–4","Fiéis em Babilônia"],["Daniel 5–8","Visões proféticas"],["Daniel 9–12","Visão final"],["Oseias 1–7","Casamento alegórico; advertências"],["Oseias 8–14","Retorno a Jeová"],["Joel 1–3","O dia de Jeová"],["Amós 1–5","Julgamento; buscai a Jeová"],["Amós 6–9","Restauração prometida"],["Obadias; Jonas 1–4","Edom; Nínive"],["Miquéias 1–7","Julgamento e misericórdia"],["Naum; Habacuque","Nínive; fé em meio à dúvida"],["Sofonias; Ageu","O dia de Jeová; o templo"],["Zacarias 1–8","Visões noturnas"],["Zacarias 9–14","Restauração de Jerusalém"],["Malaquias 1–4","Purificação e o mensageiro"],["Mateus 1–4","Nascimento; tentação de Jesus"],["Mateus 5–7","Sermão do Monte"],["Mateus 8–10","Milagres; doze apóstolos"],["Mateus 11–13","Parábolas do reino"],["Mateus 14–17","Alimentação; transfiguração"],["Mateus 18–20","Perdão; riqueza"],["Mateus 21–23","Entrada em Jerusalém"],["Mateus 24–25","Sinais do fim; parábolas"],["Mateus 26–28","Prisão; morte; ressurreição"],["Marcos 1–4","Início do ministério"],["Marcos 5–8","Milagres; missão"],["Marcos 9–12","Quem é Jesus? Jerusalém"],["Marcos 13–16","Morte e ressurreição"],["Lucas 1–3","Nascimento de João e Jesus"],["Lucas 4–6","Ministério na Galileia"],["Lucas 7–9","Milagres e ensinamentos"],["Lucas 10–12","O bom samaritano"],["Lucas 13–16","Parábolas da graça"],["Lucas 17–19","Entrada em Jerusalém"],["Lucas 20–22","Última ceia"],["Lucas 23–24","Morte e ressurreição"],["João 1–4","O Logos; primeiros discípulos"],["João 5–8","Milagres e debates"],["João 9–12","A luz do mundo; Lázaro"],["João 13–17","Palavras de despedida"],["João 18–21","Prisão; ressurreição; missão"],["Atos 1–4","Pentecostes; crescimento"],["Atos 5–8","Ananias; Estevão; Filipe"],["Atos 9–12","Paulo convertido; Pedro e Cornélio"],["Atos 13–15","Primeira viagem; concílio"],["Atos 16–19","Segunda e terceira viagem"],["Atos 20–24","Paulo preso em Jerusalém"],["Atos 25–28","Viagem a Roma"],["Romanos 1–5","Salvação por fé"],["Romanos 6–10","Vida no espírito; Israel"],["Romanos 11–16","Vida cristã"],["I Coríntios 1–7","Divisões; casamento"],["I Coríntios 8–13","Dons espirituais"],["I Coríntios 14–16","A ressurreição"],["II Coríntios 1–7","Consolação; ministério"],["II Coríntios 8–13","Generosidade; fraqueza"],["Gálatas 1–6","Fé e fruto do espírito"],["Efésios 1–6","Bênçãos; armadura de Deus"],["Filipenses; Colossenses","Alegria; supremacia de Cristo"],["I e II Tessalonicenses","A vinda do Senhor"],["I e II Timóteo","Instruções para a congregação"],["Tito; Filemon","Sã doutrina; reconciliação"],["Hebreus 1–7","Jesus, superior; sumo sacerdote"],["Hebreus 8–13","Fé; perseverança; amor"],["Tiago 1–5","Fé que age; oração"],["I e II Pedro","Santidade; o dia de Jeová"],["I, II, III João; Judas","Luz, amor e fidelidade"],["Apocalipse 1–7","Cartas; os selos"],["Apocalipse 8–14","Trombetas; a mulher e o dragão"],["Apocalipse 15–20","Taças; queda da Babilônia"],["Apocalipse 21–22","Nova Jerusalém; o novo mundo"],
+// Louvores e orações do dia
+const LOUVORES=[
+  {verse:'"Cantai ao Senhor um cântico novo; cantai ao Senhor, todas as terras."',ref:'— Salmos 96:1 (ARC)'},
+  {verse:'"Bênção, e glória, e sabedoria, e ação de graças, e honra, e poder, e força sejam ao nosso Deus pelos séculos dos séculos."',ref:'— Apocalipse 7:12 (ARC)'},
+  {verse:'"Alegrai-vos no Senhor sempre; outra vez digo: Alegrai-vos."',ref:'— Filipenses 4:4 (ARC)'},
+  {verse:'"Grande é o Senhor e mui digno de ser louvado."',ref:'— Salmos 145:3 (ARC)'},
+  {verse:'"O Senhor é a minha força e o meu escudo; nele confiou o meu coração, e fui socorrida."',ref:'— Salmos 28:7 (ARC)'},
+  {verse:'"Louvai o Senhor, porque ele é bom; porque a sua misericórdia dura para sempre."',ref:'— Salmos 106:1 (ARC)'},
+  {verse:'"Amo-te, ó Senhor, força minha."',ref:'— Salmos 18:1 (ARC)'},
+  {verse:'"Bendize, ó minha alma, ao Senhor, e tudo o que há em mim bendiga o seu santo nome."',ref:'— Salmos 103:1 (ARC)'},
+  {verse:'"Serve ao Senhor com alegria; apresentai-vos diante dele com jubilação."',ref:'— Salmos 100:2 (ARC)'},
+  {verse:'"Exaltado seja o Senhor, que se agradou da minha paz."',ref:'— Salmos 35:27 (ARC)'},
+  {verse:'"Tu és digno, Senhor e Deus nosso, de receber a glória, a honra e o poder."',ref:'— Apocalipse 4:11 (ARC)'},
+  {verse:'"O Senhor é o meu pastor; nada me faltará. Deitar-me faz em verdes pastos, guia-me mansamente a águas tranquilas."',ref:'— Salmos 23:1-2 (ARC)'},
 ];
-while(BIBLE_PLAN.length<365) BIBLE_PLAN.push(["Revisão livre","Releia sua passagem favorita do ano 🌸"]);
 
+// Versículos semanais evangélicos
 const WEEK_VERSES=[
-  {text:'"Quanto a mim e à minha casa, serviremos a Jeová."',ref:'— Josué 24:15'},
-  {text:'"Não te canses de fazer o bem, pois a seu tempo colheremos, se não desanimarmos."',ref:'— Gálatas 6:9'},
-  {text:'"Sê forte e corajosa. Não te atemorizes, pois Jeová, teu Deus, estará contigo."',ref:'— Josué 1:9'},
-  {text:'"A mulher que teme a Jeová é que será digna de louvor."',ref:'— Provérbios 31:30'},
-  {text:'"Tudo o que fizerem, façam-no de alma, como se fosse para Jeová."',ref:'— Colossenses 3:23'},
-  {text:'"Alegrai-vos sempre. Orai incessantemente. Em tudo dai graças."',ref:'— I Tessalonicenses 5:16–18'},
-  {text:'"A paz de Deus, que supera todo entendimento, guardará os vossos corações."',ref:'— Filipenses 4:7'},
-  {text:'"Confia em Jeová com todo o teu coração e não te apoies no teu próprio entendimento."',ref:'— Provérbios 3:5'},
-  {text:'"Jeová é meu pastor. Nada me faltará."',ref:'— Salmo 23:1'},
-  {text:'"Os que aguardam Jeová renovarão seu vigor. Subirão com asas como águias."',ref:'— Isaías 40:31'},
-  {text:'"Força e dignidade são suas vestes, e ela ri-se do dia futuro."',ref:'— Provérbios 31:25'},
-  {text:'"Lança o teu fardo sobre Jeová, e Ele te sustentará."',ref:'— Salmo 55:22'},
+  {text:'"Porque eu bem sei os pensamentos que tenho a vosso respeito, diz o Senhor; pensamentos de paz, e não de mal, para vos dar o fim que esperais."',ref:'— Jeremias 29:11 (ARC)'},
+  {text:'"Mulher virtuosa, quem a achará? O seu valor muito excede ao de rubis."',ref:'— Provérbios 31:10 (ARC)'},
+  {text:'"Posso tudo naquele que me fortalece."',ref:'— Filipenses 4:13 (ARC)'},
+  {text:'"Buscai em primeiro lugar o reino de Deus e a sua justiça, e todas essas coisas vos serão acrescentadas."',ref:'— Mateus 6:33 (ARC)'},
+  {text:'"Confia no Senhor de todo o teu coração, e não te estribes no teu próprio entendimento."',ref:'— Provérbios 3:5 (ARC)'},
+  {text:'"As misericórdias do Senhor são a causa de não sermos consumidos... Renovam-se cada manhã; grande é a tua fidelidade."',ref:'— Lamentações 3:22-23 (ARC)'},
+  {text:'"Não andem ansiosos por coisa alguma, mas em tudo apresentem seus pedidos a Deus."',ref:'— Filipenses 4:6 (NVI)'},
+  {text:'"A força e a honra são o seu traje; e se alegra com o dia futuro."',ref:'— Provérbios 31:25 (ARC)'},
+  {text:'"Mas os que esperam no Senhor renovarão as forças, subirão com asas como águias."',ref:'— Isaías 40:31 (ARC)'},
+  {text:'"Deleita-te também no Senhor, e ele te concederá os desejos do teu coração."',ref:'— Salmos 37:4 (ARC)'},
+  {text:'"A alegria do Senhor é a vossa força."',ref:'— Neemias 8:10 (ARC)'},
+  {text:'"Tudo o que fizerem, façam de todo o coração, como para o Senhor."',ref:'— Colossenses 3:23 (NVI)'},
 ];
+
+// Plano de leitura — 1 ano
+const BIBLE_PLAN=[
+  ["Gênesis 1–3","A criação e o início da humanidade"],["Gênesis 4–7","Caim e Abel; Noé e o dilúvio"],["Gênesis 8–11","O arco-íris; Torre de Babel"],["Gênesis 12–15","Abraão é chamado"],["Gênesis 16–19","Hagar e Ismael; Sodoma"],["Gênesis 20–23","Isaque; Sara falece"],["Gênesis 24–26","Rebeca; Esaú e Jacó"],["Gênesis 27–29","Jacó e Raquel"],["Gênesis 30–32","Os filhos de Jacó"],["Gênesis 33–36","Reconciliação; Esaú"],["Gênesis 37–40","José e seus irmãos"],["Gênesis 41–43","José no Egito"],["Gênesis 44–47","Reunião da família"],["Gênesis 48–50","Últimas bênçãos; morte de José"],["Êxodo 1–4","Moisés; a sarça ardente"],["Êxodo 5–8","As pragas do Egito"],["Êxodo 9–12","A Páscoa; saída do Egito"],["Êxodo 13–16","Mar Vermelho; maná"],["Êxodo 17–20","Os Dez Mandamentos"],["Êxodo 21–24","Leis do Senhor"],["Êxodo 25–28","O tabernáculo"],["Êxodo 29–32","O bezerro de ouro"],["Êxodo 33–36","Renovação da aliança"],["Êxodo 37–40","Conclusão do tabernáculo"],["Levítico 1–4","Leis de oferendas"],["Levítico 5–8","Sacrifícios e sacerdotes"],["Levítico 9–12","Consagração; leis alimentares"],["Levítico 13–15","Leis de pureza"],["Levítico 16–18","Dia da Expiação"],["Levítico 19–21","Leis de santidade"],["Levítico 22–24","Festas sagradas"],["Levítico 25–27","Ano do Jubileu"],["Números 1–3","Censo do povo"],["Números 4–6","Deveres; voto de nazireu"],["Números 7–9","Dedicação; a Páscoa"],["Números 10–12","Murmúrios no deserto"],["Números 13–15","Os espias; rebeldia"],["Números 16–18","Rebelião de Corá"],["Números 19–21","A serpente de bronze"],["Números 22–24","Balaão e a jumenta"],["Números 25–27","Idolatria; novo censo"],["Números 28–30","Festas e votos"],["Números 31–33","Guerras; acampamentos"],["Números 34–36","Divisão da terra prometida"],["Deuteronômio 1–3","Revisão da história"],["Deuteronômio 4–6","O maior mandamento"],["Deuteronômio 7–9","Advertências de Moisés"],["Deuteronômio 10–12","Amor ao Senhor"],["Deuteronômio 13–16","Festas e dízimos"],["Deuteronômio 17–19","Reis; profetas; cidades de refúgio"],["Deuteronômio 20–23","Leis de guerra e família"],["Deuteronômio 24–27","Diversas leis"],["Deuteronômio 28–30","Bênçãos e maldições"],["Deuteronômio 31–34","Morte de Moisés"],["Josué 1–4","Entrada em Canaã; Jordão"],["Josué 5–8","Jericó; Ai"],["Josué 9–11","Alianças; conquistas"],["Josué 12–15","Divisão da terra"],["Josué 16–19","Territórios das tribos"],["Josué 20–22","Cidades de refúgio"],["Josué 23–24","Discurso final de Josué"],["Juízes 1–3","Primeiros juízes"],["Juízes 4–6","Débora; Gideão"],["Juízes 7–9","Vitória de Gideão"],["Juízes 10–12","Jefté"],["Juízes 13–16","Sansão"],["Juízes 17–21","Micá; guerra civil"],["Rute 1–4","A fidelidade de Rute"],["I Samuel 1–3","Samuel é dedicado ao Senhor"],["I Samuel 4–7","A arca; retorno"],["I Samuel 8–11","Saul é escolhido rei"],["I Samuel 12–14","Saul desobedece a Deus"],["I Samuel 15–17","Davi e Golias"],["I Samuel 18–20","Davi e Jônatas"],["I Samuel 21–24","Davi foge de Saul"],["I Samuel 25–27","Abigail; Davi entre filisteus"],["I Samuel 28–31","Morte de Saul"],["II Samuel 1–4","Davi torna-se rei"],["II Samuel 5–7","A arca em Jerusalém"],["II Samuel 8–10","Vitórias de Davi"],["II Samuel 11–13","Davi e Bate-Seba"],["II Samuel 14–16","Absalão"],["II Samuel 17–20","Revolta; Davi retorna"],["II Samuel 21–24","Últimas palavras de Davi"],["I Reis 1–3","Salomão torna-se rei"],["I Reis 4–6","Sabedoria; o templo"],["I Reis 7–9","Dedicação do templo"],["I Reis 10–12","Rainha de Sabá; divisão"],["I Reis 13–15","Profetas"],["I Reis 16–18","Elias; chuva"],["I Reis 19–21","Fuga de Elias; Nabote"],["I Reis 22","Morte de Acabe"],["II Reis 1–3","Elias sobe ao céu; Eliseu"],["II Reis 4–6","Milagres de Eliseu"],["II Reis 7–9","Cerco de Samaria; Jeú"],["II Reis 10–12","Jeú; Joás"],["II Reis 13–15","Reis de Israel"],["II Reis 16–18","Queda de Samaria"],["II Reis 19–21","Ezequias; Isaías"],["II Reis 22–25","Josias; queda de Jerusalém"],["I Crônicas 1–5","Genealogias"],["I Crônicas 6–10","Tribos; morte de Saul"],["I Crônicas 11–15","Davi e a arca"],["I Crônicas 16–20","Pacto davídico; guerras"],["I Crônicas 21–25","Preparativos para o templo"],["I Crônicas 26–29","Organização; morte de Davi"],["II Crônicas 1–5","Salomão e o templo"],["II Crônicas 6–9","Dedicação; riqueza de Salomão"],["II Crônicas 10–14","Divisão; reis de Judá"],["II Crônicas 15–20","Josafá"],["II Crônicas 21–25","Reis; Joiada"],["II Crônicas 26–29","Ezequias"],["II Crônicas 30–33","Reformas"],["II Crônicas 34–36","Últimos reis; exílio"],["Esdras 1–4","Retorno do exílio"],["Esdras 5–7","Templo reconstruído"],["Esdras 8–10","Reforma de Esdras"],["Neemias 1–4","Reconstrução dos muros"],["Neemias 5–7","Oposição superada"],["Neemias 8–10","Renovação da aliança"],["Neemias 11–13","Dedicação; reformas"],["Ester 1–5","Ester e Mardoqueu"],["Ester 6–10","Salvação do povo judeu"],["Jó 1–5","Aflições de Jó"],["Jó 6–10","Respostas de Jó"],["Jó 11–15","Discursos dos amigos"],["Jó 16–20","Jó clama por resposta"],["Jó 21–25","Jó questiona a Deus"],["Jó 26–30","Sabedoria; lamento de Jó"],["Jó 31–34","Defesa final; Eliú"],["Jó 35–42","Deus responde; restauração"],["Salmos 1–10","Confiança no Senhor"],["Salmos 11–20","Proteção divina"],["Salmos 21–30","O Pastor e o Rei"],["Salmos 31–40","Louvor e lamento"],["Salmos 41–50","Sede de Deus"],["Salmos 51–60","Arrependimento; fé"],["Salmos 61–70","Esperança em aflição"],["Salmos 71–80","Hinos de louvor"],["Salmos 81–90","Eternidade de Deus"],["Salmos 91–100","Louvor e confiança"],["Salmos 101–108","Misericórdia do Senhor"],["Salmos 109–118","O Hallel"],["Salmos 119:1–88","A Palavra de Deus"],["Salmos 119:89–176","A Palavra de Deus (cont.)"],["Salmos 120–135","Salmos de subida; adoração"],["Salmos 136–150","Louvor eterno; hinos finais"],["Provérbios 1–5","Sabedoria acima de tudo"],["Provérbios 6–9","Sabedoria e pureza"],["Provérbios 10–14","Sabedoria prática"],["Provérbios 15–18","O coração e a língua"],["Provérbios 19–22","Conduta sábia"],["Provérbios 23–26","Mais ensinamentos"],["Provérbios 27–29","Justiça e liderança"],["Provérbios 30–31","A mulher virtuosa"],["Eclesiastes 1–6","Vaidade das vaidades"],["Eclesiastes 7–12","Temer a Deus"],["Cantares 1–8","Amor e devoção"],["Isaías 1–6","Visão de Isaías"],["Isaías 7–12","O ramo de Jessé; o Messias"],["Isaías 13–18","Julgamentos sobre nações"],["Isaías 19–24","O apocalipse de Isaías"],["Isaías 25–30","Ais a Israel"],["Isaías 31–36","Promessas de restauração"],["Isaías 37–42","Consolo ao povo"],["Isaías 43–48","Israel, servo do Senhor"],["Isaías 49–54","O Servo Sofredor"],["Isaías 55–60","Convite de Deus"],["Isaías 61–66","Nova criação"],["Jeremias 1–5","Chamado de Jeremias"],["Jeremias 6–10","Pecado de Judá"],["Jeremias 11–15","Lamentos de Jeremias"],["Jeremias 16–20","Mensagens de julgamento"],["Jeremias 21–25","Falsos profetas"],["Jeremias 26–30","O jugo da Babilônia"],["Jeremias 31–33","Nova aliança"],["Jeremias 34–38","Destruição de Jerusalém"],["Jeremias 39–44","Fuga para o Egito"],["Jeremias 45–52","Queda da Babilônia"],["Lamentações 1–5","Lamentos e esperança"],["Ezequiel 1–5","Visões e missão de Ezequiel"],["Ezequiel 6–11","A glória de Deus"],["Ezequiel 12–17","Falsas profecias; alegorias"],["Ezequiel 18–22","Pecados de Israel"],["Ezequiel 23–28","Tiro e Sidom"],["Ezequiel 29–33","O Egito; sentinela"],["Ezequiel 34–39","O Pastor; Gogue"],["Ezequiel 40–48","O novo templo"],["Daniel 1–4","Fiéis na Babilônia"],["Daniel 5–8","Visões proféticas"],["Daniel 9–12","Visão final"],["Oseias 1–7","Amor de Deus; advertências"],["Oseias 8–14","Retorno ao Senhor"],["Joel 1–3","O dia do Senhor"],["Amós 1–5","Julgamento; buscai o Senhor"],["Amós 6–9","Restauração prometida"],["Obadias; Jonas 1–4","Edom; Nínive"],["Miquéias 1–7","Julgamento e misericórdia"],["Naum; Habacuque","Nínive; fé em meio à dúvida"],["Sofonias; Ageu","O dia do Senhor; o templo"],["Zacarias 1–8","Visões noturnas"],["Zacarias 9–14","Restauração; o Messias"],["Malaquias 1–4","Purificação; o mensageiro"],["Mateus 1–4","Nascimento; tentação de Jesus"],["Mateus 5–7","Sermão da Montanha"],["Mateus 8–10","Milagres; os doze apóstolos"],["Mateus 11–13","Parábolas do reino"],["Mateus 14–17","Alimentação; transfiguração"],["Mateus 18–20","Perdão; riqueza"],["Mateus 21–23","Entrada em Jerusalém"],["Mateus 24–25","Sinais do fim; parábolas"],["Mateus 26–28","Paixão, morte e ressurreição"],["Marcos 1–4","Início do ministério"],["Marcos 5–8","Milagres; missão"],["Marcos 9–12","Quem é Jesus? Jerusalém"],["Marcos 13–16","Paixão e ressurreição"],["Lucas 1–3","Nascimento de João e Jesus"],["Lucas 4–6","Ministério na Galileia"],["Lucas 7–9","Milagres e ensinamentos"],["Lucas 10–12","O bom samaritano"],["Lucas 13–16","Parábolas da graça"],["Lucas 17–19","Entrada em Jerusalém"],["Lucas 20–22","A última ceia"],["Lucas 23–24","Morte e ressurreição"],["João 1–4","O Verbo; primeiros discípulos"],["João 5–8","Milagres e debates"],["João 9–12","A luz do mundo; Lázaro"],["João 13–17","O discurso do adeus"],["João 18–21","Paixão; ressurreição; missão"],["Atos 1–4","Pentecostes; crescimento da Igreja"],["Atos 5–8","Estevão; Filipe"],["Atos 9–12","Paulo convertido; Pedro e Cornélio"],["Atos 13–15","Primeira viagem; concílio"],["Atos 16–19","Segunda e terceira viagem"],["Atos 20–24","Paulo preso em Jerusalém"],["Atos 25–28","Viagem a Roma"],["Romanos 1–5","Salvação pela graça mediante a fé"],["Romanos 6–10","Vida no Espírito; Israel"],["Romanos 11–16","Vida cristã"],["I Coríntios 1–7","Divisões; casamento"],["I Coríntios 8–13","Dons espirituais; o amor"],["I Coríntios 14–16","A ressurreição"],["II Coríntios 1–7","Consolação; ministério"],["II Coríntios 8–13","Generosidade; fraqueza"],["Gálatas 1–6","Graça, fé e fruto do Espírito"],["Efésios 1–6","Bênçãos espirituais; armadura de Deus"],["Filipenses; Colossenses","Alegria; supremacia de Cristo"],["I e II Tessalonicenses","A vinda do Senhor"],["I e II Timóteo","Instruções para a Igreja"],["Tito; Filemon","Sã doutrina; reconciliação"],["Hebreus 1–7","Jesus: superior; Sumo Sacerdote"],["Hebreus 8–13","Fé; perseverança; amor fraternal"],["Tiago 1–5","Fé que age; oração"],["I e II Pedro","Santidade; o dia do Senhor"],["I, II, III João; Judas","Luz, amor e fidelidade"],["Apocalipse 1–7","Cartas às igrejas; os selos"],["Apocalipse 8–14","Trombetas; a mulher e o dragão"],["Apocalipse 15–20","Taças; queda da Babilônia"],["Apocalipse 21–22","Nova Jerusalém; eternidade"],
+];
+while(BIBLE_PLAN.length<365) BIBLE_PLAN.push(["Revisão e meditação","Releia sua passagem favorita e medite nela 🌸"]);
 
 const MOODS=[
   {emoji:'😞',label:'Triste'},{emoji:'😟',label:'Difícil'},{emoji:'😐',label:'Neutro'},
-  {emoji:'🙂',label:'Bem'},{emoji:'😊',label:'Feliz'},{emoji:'🥰',label:'Amada'},{emoji:'✨',label:'Ótima!'},
+  {emoji:'🙂',label:'Bem'},{emoji:'😊',label:'Feliz'},{emoji:'🥰',label:'Abençoada'},{emoji:'✨',label:'Vitoriosa!'},
 ];
 
 // ========================
 // ESTADO
 // ========================
-let currentUser=null, dataCache={};
-let currentMonth, currentYear, currentWeekStart, currentAnnualYear;
-let modalDateStr='', yearMonthModalIdx=-1, selectedMood='';
+let currentUser=null,dataCache={};
+let currentMonth,currentYear,currentWeekStart,currentAnnualYear;
+let modalDateStr='',yearMonthModalIdx=-1,selectedMood='';
 
 // ========================
-// CAMADA DE DADOS (Supabase)
+// DADOS (Supabase)
 // ========================
-function setSyncDot(state){
-  const d=document.getElementById('sync-dot');
-  if(!d)return;
-  d.className='sync-dot'+(state==='syncing'?' syncing':state==='error'?' error':'');
-  d.title=state==='syncing'?'Sincronizando...':state==='error'?'Erro de sincronização':'Sincronizado ✓';
-}
-
-async function loadAllData(){
-  const {data,error}=await sb.from('planner_data').select('data_key,data_value').eq('user_id',currentUser);
-  if(error){console.error('Erro ao carregar dados:',error);return;}
-  dataCache={};
-  if(data) data.forEach(r=>{dataCache[r.data_key]=r.data_value;});
-}
-
-function getData(key,def=null){
-  return dataCache.hasOwnProperty(key)?dataCache[key]:def;
-}
-
-function setData(key,val){
-  dataCache[key]=val;
-  setSyncDot('syncing');
-  sb.from('planner_data').upsert({
-    user_id:currentUser,data_key:key,data_value:val,updated_at:new Date().toISOString()
-  },{onConflict:'user_id,data_key'}).then(({error})=>{
-    setSyncDot(error?'error':'ok');
-    if(error) console.warn('Sync error:',error);
-  });
-}
-
-// AUTH via Supabase
-async function checkAuth(user){
-  const {data}=await sb.from('planner_data').select('data_value').eq('user_id','_auth_').eq('data_key',user).maybeSingle();
-  return data?data.data_value:null;
-}
-async function saveAuth(user,pass){
-  await sb.from('planner_data').upsert({
-    user_id:'_auth_',data_key:user,data_value:{password:btoa(pass)},updated_at:new Date().toISOString()
-  },{onConflict:'user_id,data_key'});
-}
+function setSyncDot(s){const d=document.getElementById('sync-dot');if(!d)return;d.className='sync-dot'+(s==='syncing'?' syncing':s==='error'?' error':'');}
+async function loadAllData(){const{data}=await sb.from('planner_data').select('data_key,data_value').eq('user_id','ev_'+currentUser);dataCache={};if(data)data.forEach(r=>{dataCache[r.data_key]=r.data_value;});}
+function getData(k,def=null){return dataCache.hasOwnProperty(k)?dataCache[k]:def;}
+function setData(k,v){dataCache[k]=v;setSyncDot('syncing');sb.from('planner_data').upsert({user_id:'ev_'+currentUser,data_key:k,data_value:v,updated_at:new Date().toISOString()},{onConflict:'user_id,data_key'}).then(({error})=>{setSyncDot(error?'error':'ok');});}
+async function checkAuth(u){const{data}=await sb.from('planner_data').select('data_value').eq('user_id','_auth_ev_').eq('data_key',u).maybeSingle();return data?data.data_value:null;}
+async function saveAuth(u,p){await sb.from('planner_data').upsert({user_id:'_auth_ev_',data_key:u,data_value:{password:btoa(p)},updated_at:new Date().toISOString()},{onConflict:'user_id,data_key'});}
 
 // ========================
 // UTILS
@@ -624,86 +626,10 @@ async function saveAuth(user,pass){
 function fmtDate(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
 function ptDate(s){const dt=new Date(s+'T00:00:00');return `${DAYS_LONG[dt.getDay()]}, ${dt.getDate()} de ${MONTHS[dt.getMonth()]} de ${dt.getFullYear()}`;}
 function dayOfYear(d){return Math.floor((d-new Date(d.getFullYear(),0,0))/86400000);}
-function showSaveMsg(id){const el=document.getElementById(id);if(el){el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200);}}
+function showSaveMsg(id){const el=document.getElementById(id);el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200);}
 
-// ========================
-// AUTO-SAVE (debounce)
-// ========================
-const _asTimers={};
-function autoSave(key,fn,delay=900){
-  clearTimeout(_asTimers[key]);
-  showAutoSaveIndicator('salvando');
-  _asTimers[key]=setTimeout(()=>{fn();showAutoSaveIndicator('salvo');},delay);
-}
-
-function showAutoSaveIndicator(state){
-  const el=document.getElementById('autosave-indicator');
-  if(!el)return;
-  if(state==='salvando'){el.textContent='💾 Salvando...';el.style.opacity='1';}
-  else{el.textContent='✅ Salvo!';el.style.opacity='1';setTimeout(()=>{el.style.opacity='0';},1500);}
-}
-
-// ========================
-// PWA — INSTALL PROMPT
-// ========================
-let _deferredInstallPrompt=null;
-window.addEventListener('beforeinstallprompt',(e)=>{
-  e.preventDefault();
-  _deferredInstallPrompt=e;
-  if(currentUser){const b=document.getElementById('install-banner');if(b)b.style.display='flex';}
-});
-window.addEventListener('appinstalled',()=>{
-  const b=document.getElementById('install-banner');if(b)b.style.display='none';
-  _deferredInstallPrompt=null;
-});
-async function installPWA(){
-  if(!_deferredInstallPrompt)return;
-  _deferredInstallPrompt.prompt();
-  const{outcome}=await _deferredInstallPrompt.userChoice;
-  _deferredInstallPrompt=null;
-  document.getElementById('install-banner').style.display='none';
-}
-function dismissInstall(){document.getElementById('install-banner').style.display='none';}
-
-// Manifest inline (funciona quando servido via HTTP/HTTPS)
-(function(){
-  const svgIcon = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='40' fill='%23c9728a'/><text y='130' x='96' text-anchor='middle' font-size='110'>🌸</text></svg>`;
-  const manifest = {
-    name:'Mulher de Provérbios',short_name:'Meu Planner',
-    start_url:window.location.href,display:'standalone',
-    background_color:'#ffeef4',theme_color:'#c9728a',
-    icons:[
-      {src:`data:image/svg+xml,${svgIcon}`,sizes:'192x192',type:'image/svg+xml'},
-      {src:`data:image/svg+xml,${svgIcon}`,sizes:'512x512',type:'image/svg+xml'}
-    ]
-  };
-  const blob=new Blob([JSON.stringify(manifest)],{type:'application/manifest+json'});
-  document.getElementById('pwa-manifest').href=URL.createObjectURL(blob);
-})();
-
-// Register Service Worker
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('/sw.js').catch(()=>{});
-  });
-}
-
-// ========================
 // PETALS
-// ========================
-(function(){
-  const c=document.getElementById('petals');
-  const e=['🌸','🌺','🌷','💮','🌼'];
-  for(let i=0;i<12;i++){
-    const p=document.createElement('div');p.className='petal';
-    p.textContent=e[Math.floor(Math.random()*e.length)];
-    p.style.left=Math.random()*100+'%';
-    p.style.animationDuration=(10+Math.random()*15)+'s';
-    p.style.animationDelay=(-Math.random()*20)+'s';
-    p.style.fontSize=(0.8+Math.random())+'rem';
-    c.appendChild(p);
-  }
-})();
+(function(){const c=document.getElementById('petals');const e=['🌸','🌷','💮','✿','🌺'];for(let i=0;i<12;i++){const p=document.createElement('div');p.className='petal';p.textContent=e[Math.floor(Math.random()*e.length)];p.style.left=Math.random()*100+'%';p.style.animationDuration=(10+Math.random()*15)+'s';p.style.animationDelay=(-Math.random()*20)+'s';p.style.fontSize=(0.8+Math.random())+'rem';c.appendChild(p);}})();
 
 // ========================
 // AUTH
@@ -722,359 +648,94 @@ async function doRegister(){
   setBtnLoading('btn-register',true,'Criar meu planner 🌷');
   const exists=await checkAuth(user);
   if(exists){showErr('Esse usuário já existe 💕');setBtnLoading('btn-register',false,'Criar meu planner 🌷');return;}
-  await saveAuth(user,pass);
-  await enterApp(user);
+  await saveAuth(user,pass);await enterApp(user);
 }
-
 async function doLogin(){
   const user=document.getElementById('login-user').value.trim();
   const pass=document.getElementById('login-pass').value;
   if(!user||!pass){showErr('Preencha todos os campos 🌸');return;}
-  setBtnLoading('btn-login',true,'Planejar 🌷');
-  const authData=await checkAuth(user);
-  if(!authData||authData.password!==btoa(pass)){
-    showErr('Usuário ou senha incorretos 🌷');
-    setBtnLoading('btn-login',false,'Planejar 🌷');
-    return;
-  }
+  setBtnLoading('btn-login',true,'Entrar 🌸');
+  const a=await checkAuth(user);
+  if(!a||a.password!==btoa(pass)){showErr('Usuário ou senha incorretos 🌷');setBtnLoading('btn-login',false,'Entrar 🌸');return;}
   await enterApp(user);
 }
-
 async function enterApp(user){
-  currentUser=user;
-  sessionStorage.setItem('planner_session',user);
-  // Carregar dados do Supabase
+  currentUser=user;sessionStorage.setItem('planner_ev_session',user);
   await loadAllData();
-  // Mostrar app
   document.getElementById('loading-screen').style.display='none';
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').style.display='block';
-  document.getElementById('header-username').textContent='💕 '+user;
-  const now=new Date();
-  currentMonth=now.getMonth();currentYear=now.getFullYear();
-  currentAnnualYear=now.getFullYear();
-  currentWeekStart=getMonday(now);
+  document.getElementById('header-username').textContent='✝️ '+user;
+  const now=new Date();currentMonth=now.getMonth();currentYear=now.getFullYear();currentAnnualYear=now.getFullYear();currentWeekStart=getMonday(now);
   initDiary();
-  if(_deferredInstallPrompt){const b=document.getElementById('install-banner');if(b)b.style.display='flex';}
 }
+function doLogout(){sessionStorage.removeItem('planner_ev_session');currentUser=null;dataCache={};document.getElementById('app').style.display='none';document.getElementById('login-screen').style.display='flex';document.getElementById('login-user').value='';document.getElementById('login-pass').value='';document.getElementById('login-error').style.display='none';setBtnLoading('btn-login',false,'Entrar 🌸');}
 
-function doLogout(){
-  sessionStorage.removeItem('planner_session');
-  currentUser=null;dataCache={};
-  document.getElementById('app').style.display='none';
-  document.getElementById('login-screen').style.display='flex';
-  document.getElementById('login-user').value='';
-  document.getElementById('login-pass').value='';
-  document.getElementById('login-error').style.display='none';
-  setBtnLoading('btn-login',false,'Planejar 🌷');
-}
-
-// Verificar sessão ao abrir
-(async function checkSession(){
-  const saved=sessionStorage.getItem('planner_session');
-  if(saved){
-    currentUser=saved;
-    document.getElementById('loading-screen').style.display='flex';
-    await loadAllData();
-    document.getElementById('loading-screen').style.display='none';
-    document.getElementById('app').style.display='block';
-    document.getElementById('header-username').textContent='💕 '+saved;
-    const now=new Date();
-    currentMonth=now.getMonth();currentYear=now.getFullYear();
-    currentAnnualYear=now.getFullYear();
-    currentWeekStart=getMonday(now);
-    initDiary();
-    if(_deferredInstallPrompt){const b=document.getElementById('install-banner');if(b)b.style.display='flex';}
-  } else {
-    document.getElementById('loading-screen').style.display='none';
-    document.getElementById('login-screen').style.display='flex';
-  }
-})();
+(async function checkSession(){const s=sessionStorage.getItem('planner_ev_session');if(s){currentUser=s;document.getElementById('loading-screen').style.display='flex';await loadAllData();document.getElementById('loading-screen').style.display='none';document.getElementById('app').style.display='block';document.getElementById('header-username').textContent='✝️ '+s;const now=new Date();currentMonth=now.getMonth();currentYear=now.getFullYear();currentAnnualYear=now.getFullYear();currentWeekStart=getMonday(now);initDiary();}else{document.getElementById('loading-screen').style.display='none';document.getElementById('login-screen').style.display='flex';}})();
 
 // ========================
 // NAV
 // ========================
-function showSection(name,btn){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('section-'+name).classList.add('active');
-  if(btn)btn.classList.add('active');
-  if(name==='weekly')renderWeek();
-  if(name==='monthly')renderCalendar();
-  if(name==='annual')renderAnnual();
-}
+function showSection(name,btn){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.getElementById('section-'+name).classList.add('active');if(btn)btn.classList.add('active');if(name==='weekly')renderWeek();if(name==='monthly')renderCalendar();if(name==='annual')renderAnnual();}
 
 // ========================
-// DIÁRIO / AGENDA
+// DIÁRIO
 // ========================
-function initDiary(){
-  const now=new Date();
-  const dateStr=fmtDate(now.getFullYear(),now.getMonth(),now.getDate());
-  document.getElementById('diary-date').value=dateStr;
-  document.getElementById('diary-today-date').textContent=ptDate(dateStr);
-  buildHourSlots();buildMoodThermometer();
-  renderDevotion(now);renderBiblePlan(now);loadDiary();
-}
+function initDiary(){const now=new Date();const ds=fmtDate(now.getFullYear(),now.getMonth(),now.getDate());document.getElementById('diary-date').value=ds;document.getElementById('diary-today-date').textContent=ptDate(ds);buildHourSlots();buildMoodThermometer();renderDevotion(now);renderLouvor(now);renderBiblePlan(now);loadDiary();}
 
-function buildHourSlots(){
-  const c=document.getElementById('diary-hours');c.innerHTML='';
-  HOURS.forEach(h=>{
-    const s=document.createElement('div');s.className='hour-slot-v';
-    s.innerHTML=`<div class="hour-label-v">${h}</div><input class="hour-input-v" type="text" data-hour="${h}" placeholder="...">`;
-    c.appendChild(s);
-    s.querySelector('input').addEventListener('input',()=>autoSave('diary',saveDiary));
-  });
-}
+function buildHourSlots(){const c=document.getElementById('diary-hours');c.innerHTML='';HOURS.forEach(h=>{const s=document.createElement('div');s.className='hour-slot-v';s.innerHTML=`<div class="hour-label-v">${h}</div><input class="hour-input-v" type="text" data-hour="${h}" placeholder="...">`;c.appendChild(s);});}
 
-function buildMoodThermometer(){
-  const c=document.getElementById('mood-thermometer');c.innerHTML='';
-  MOODS.forEach(m=>{
-    const btn=document.createElement('button');btn.className='mood-item';btn.dataset.mood=m.emoji;
-    btn.innerHTML=`${m.emoji}<span class="mood-label">${m.label}</span>`;
-    btn.onclick=()=>{
-      document.querySelectorAll('.mood-item').forEach(b=>b.classList.remove('selected'));
-      btn.classList.add('selected');selectedMood=m.emoji;
-      document.getElementById('mood-selected-label').textContent='Humor: '+m.emoji+' '+m.label;
-      autoSave('diary',saveDiary,300);
-    };
-    c.appendChild(btn);
-  });
-}
+function buildMoodThermometer(){const c=document.getElementById('mood-thermometer');c.innerHTML='';MOODS.forEach(m=>{const btn=document.createElement('button');btn.className='mood-item';btn.dataset.mood=m.emoji;btn.innerHTML=`${m.emoji}<span class="mood-label">${m.label}</span>`;btn.onclick=()=>{document.querySelectorAll('.mood-item').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');selectedMood=m.emoji;document.getElementById('mood-selected-label').textContent='Humor: '+m.emoji+' '+m.label;};c.appendChild(btn);});}
 
-function renderDevotion(date){
-  const d=DEVOTIONS[dayOfYear(date)%DEVOTIONS.length];
-  document.getElementById('devotion-ref').textContent=d.ref;
-  document.getElementById('devotion-verse').textContent=d.verse;
-  document.getElementById('devotion-reflection').textContent=d.reflection;
-}
+function renderDevotion(date){const d=DEVOTIONS[dayOfYear(date)%DEVOTIONS.length];document.getElementById('devotion-ref').textContent=d.ref;document.getElementById('devotion-verse').textContent=d.verse;document.getElementById('devotion-reflection').textContent=d.reflection;}
 
-function renderBiblePlan(date){
-  const doy=dayOfYear(date);
-  const plan=BIBLE_PLAN[Math.min(doy-1,364)];
-  document.getElementById('bible-day-badge').textContent='Dia '+doy;
-  document.getElementById('bible-progress-pct').textContent=Math.round((doy/365)*100)+'% da Bíblia concluída';
-  document.getElementById('bible-reading-text').textContent='📖 '+plan[0];
-  document.getElementById('bible-reading-desc').textContent=plan[1];
-  const checks=getData('bible_checks',{});
-  document.getElementById('bible-done').checked=!!(checks[document.getElementById('diary-date').value]);
-}
+function renderLouvor(date){const l=LOUVORES[dayOfYear(date)%LOUVORES.length];document.getElementById('louvor-verse').textContent=l.verse;document.getElementById('louvor-ref').textContent=l.ref;}
 
-function loadDiary(){
-  const dateStr=document.getElementById('diary-date').value;
-  if(!dateStr)return;
-  const dt=new Date(dateStr+'T00:00:00');
-  document.getElementById('diary-date-title').textContent=ptDate(dateStr);
-  document.getElementById('diary-today-date').textContent=ptDate(dateStr);
-  renderDevotion(dt);renderBiblePlan(dt);
-  const diaries=getData('diary',{});
-  const entry=diaries[dateStr]||{};
-  document.getElementById('diary-text').value=entry.text||'';
-  document.getElementById('diary-gratitude').value=entry.gratitude||'';
-  document.getElementById('diary-goal').value=entry.goal||'';
-  selectedMood=entry.mood||'';
-  document.querySelectorAll('.mood-item').forEach(b=>b.classList.toggle('selected',b.dataset.mood===selectedMood));
-  document.getElementById('mood-selected-label').textContent=selectedMood?'Humor: '+selectedMood+' '+(MOODS.find(x=>x.emoji===selectedMood)||{label:''}).label:'';
-  buildHourSlots();
-  const hours=entry.hours||{};
-  document.querySelectorAll('.hour-input-v').forEach(inp=>{inp.value=hours[inp.dataset.hour]||'';});
-}
+function renderBiblePlan(date){const doy=dayOfYear(date);const plan=BIBLE_PLAN[Math.min(doy-1,364)];document.getElementById('bible-day-badge').textContent='Dia '+doy;document.getElementById('bible-progress-pct').textContent=Math.round((doy/365)*100)+'% da Bíblia concluída';document.getElementById('bible-reading-text').textContent='📖 '+plan[0];document.getElementById('bible-reading-desc').textContent=plan[1];const checks=getData('bible_checks',{});document.getElementById('bible-done').checked=!!(checks[document.getElementById('diary-date').value]);}
 
-function saveDiary(){
-  const dateStr=document.getElementById('diary-date').value;if(!dateStr)return;
-  const hours={};
-  document.querySelectorAll('.hour-input-v').forEach(inp=>{if(inp.value.trim())hours[inp.dataset.hour]=inp.value.trim();});
-  const diaries=getData('diary',{});
-  diaries[dateStr]={text:document.getElementById('diary-text').value,gratitude:document.getElementById('diary-gratitude').value,goal:document.getElementById('diary-goal').value,mood:selectedMood,hours};
-  setData('diary',diaries);showSaveMsg('save-msg');
-}
+function loadDiary(){const dateStr=document.getElementById('diary-date').value;if(!dateStr)return;const dt=new Date(dateStr+'T00:00:00');document.getElementById('diary-date-title').textContent=ptDate(dateStr);document.getElementById('diary-today-date').textContent=ptDate(dateStr);renderDevotion(dt);renderLouvor(dt);renderBiblePlan(dt);const diaries=getData('diary',{});const entry=diaries[dateStr]||{};document.getElementById('diary-text').value=entry.text||'';document.getElementById('diary-gratitude').value=entry.gratitude||'';document.getElementById('diary-prayer').value=entry.prayer||'';document.getElementById('diary-goal').value=entry.goal||'';selectedMood=entry.mood||'';document.querySelectorAll('.mood-item').forEach(b=>b.classList.toggle('selected',b.dataset.mood===selectedMood));document.getElementById('mood-selected-label').textContent=selectedMood?'Humor: '+selectedMood+' '+(MOODS.find(x=>x.emoji===selectedMood)||{label:''}).label:'';buildHourSlots();const hours=entry.hours||{};document.querySelectorAll('.hour-input-v').forEach(inp=>{inp.value=hours[inp.dataset.hour]||'';});}
 
-function saveBibleCheck(){
-  const dateStr=document.getElementById('diary-date').value;
-  const checks=getData('bible_checks',{});
-  checks[dateStr]=document.getElementById('bible-done').checked;
-  setData('bible_checks',checks);
-}
+function saveDiary(){const dateStr=document.getElementById('diary-date').value;if(!dateStr)return;const hours={};document.querySelectorAll('.hour-input-v').forEach(inp=>{if(inp.value.trim())hours[inp.dataset.hour]=inp.value.trim();});const diaries=getData('diary',{});diaries[dateStr]={text:document.getElementById('diary-text').value,gratitude:document.getElementById('diary-gratitude').value,prayer:document.getElementById('diary-prayer').value,goal:document.getElementById('diary-goal').value,mood:selectedMood,hours};setData('diary',diaries);showSaveMsg('save-msg');}
+
+function saveBibleCheck(){const dateStr=document.getElementById('diary-date').value;const checks=getData('bible_checks',{});checks[dateStr]=document.getElementById('bible-done').checked;setData('bible_checks',checks);}
 
 // ========================
 // SEMANAL
 // ========================
-function getMonday(date){
-  const d=new Date(date),day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);
-  d.setDate(diff);d.setHours(0,0,0,0);return d;
-}
-
-function renderWeek(){
-  const monday=new Date(currentWeekStart);
-  const sunday=new Date(monday);sunday.setDate(sunday.getDate()+6);
-  const fmt=d=>`${d.getDate()}/${d.getMonth()+1}`;
-  document.getElementById('week-title').textContent=`${fmt(monday)} – ${fmt(sunday)}`;
-  const weekKey=fmtDate(monday.getFullYear(),monday.getMonth(),monday.getDate());
-  document.getElementById('week-objectives').value=(getData('week_objectives',{})[weekKey])||'';
-  const vIdx=Math.floor(monday.getTime()/604800000)%WEEK_VERSES.length;
-  document.getElementById('week-verse-text').textContent=WEEK_VERSES[vIdx].text;
-  document.getElementById('week-verse-ref').textContent=WEEK_VERSES[vIdx].ref;
-  const grid=document.getElementById('week-grid');grid.innerHTML='';
-  const today=new Date();today.setHours(0,0,0,0);
-  const weekNotes=getData('week_notes',{});
-  for(let i=0;i<7;i++){
-    const d=new Date(monday);d.setDate(d.getDate()+i);
-    const dateStr=fmtDate(d.getFullYear(),d.getMonth(),d.getDate());
-    const isToday=d.getTime()===today.getTime();
-    const card=document.createElement('div');
-    card.className='week-day-card'+(isToday?' today-card':'');
-    card.innerHTML=`<div class="week-day-name">${DAYS_SHORT[d.getDay()]}</div><div class="week-day-num">${d.getDate()}</div><textarea class="week-task-input" data-date="${dateStr}" placeholder="Planos do dia 🌸">${weekNotes[dateStr]||''}</textarea>`;
-    card.querySelector('textarea').addEventListener('input',()=>autoSave('week-notes',saveWeekNotes));
-    grid.appendChild(card);
-  }
-}
-
-function saveWeekObjectives(){
-  const monday=new Date(currentWeekStart);
-  const weekKey=fmtDate(monday.getFullYear(),monday.getMonth(),monday.getDate());
-  const weekObjs=getData('week_objectives',{});
-  weekObjs[weekKey]=document.getElementById('week-objectives').value;
-  setData('week_objectives',weekObjs);showSaveMsg('week-obj-msg');
-}
-
-function saveWeekNotes(){
-  const weekNotes=getData('week_notes',{});
-  document.querySelectorAll('.week-task-input').forEach(ta=>{weekNotes[ta.dataset.date]=ta.value;});
-  setData('week_notes',weekNotes);showSaveMsg('week-save-msg');
-}
-
+function getMonday(date){const d=new Date(date),day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);d.setDate(diff);d.setHours(0,0,0,0);return d;}
+function renderWeek(){const monday=new Date(currentWeekStart);const sunday=new Date(monday);sunday.setDate(sunday.getDate()+6);const fmt=d=>`${d.getDate()}/${d.getMonth()+1}`;document.getElementById('week-title').textContent=`${fmt(monday)} – ${fmt(sunday)}`;const weekKey=fmtDate(monday.getFullYear(),monday.getMonth(),monday.getDate());document.getElementById('week-objectives').value=(getData('week_objectives',{})[weekKey])||'';const vIdx=Math.floor(monday.getTime()/604800000)%WEEK_VERSES.length;document.getElementById('week-verse-text').textContent=WEEK_VERSES[vIdx].text;document.getElementById('week-verse-ref').textContent=WEEK_VERSES[vIdx].ref;const grid=document.getElementById('week-grid');grid.innerHTML='';const today=new Date();today.setHours(0,0,0,0);const weekNotes=getData('week_notes',{});for(let i=0;i<7;i++){const d=new Date(monday);d.setDate(d.getDate()+i);const dateStr=fmtDate(d.getFullYear(),d.getMonth(),d.getDate());const isToday=d.getTime()===today.getTime();const card=document.createElement('div');card.className='week-day-card'+(isToday?' today-card':'');card.innerHTML=`<div class="week-day-name">${DAYS_SHORT[d.getDay()]}</div><div class="week-day-num">${d.getDate()}</div><textarea class="week-task-input" data-date="${dateStr}" placeholder="Planos do dia 🌸">${weekNotes[dateStr]||''}</textarea>`;grid.appendChild(card);}}
+function saveWeekObjectives(){const monday=new Date(currentWeekStart);const weekKey=fmtDate(monday.getFullYear(),monday.getMonth(),monday.getDate());const o=getData('week_objectives',{});o[weekKey]=document.getElementById('week-objectives').value;setData('week_objectives',o);showSaveMsg('week-obj-msg');}
+function saveWeekNotes(){const n=getData('week_notes',{});document.querySelectorAll('.week-task-input').forEach(ta=>{n[ta.dataset.date]=ta.value;});setData('week_notes',n);showSaveMsg('week-save-msg');}
 function prevWeek(){currentWeekStart.setDate(currentWeekStart.getDate()-7);renderWeek();}
 function nextWeek(){currentWeekStart.setDate(currentWeekStart.getDate()+7);renderWeek();}
 
 // ========================
 // MENSAL
 // ========================
-function renderCalendar(){
-  document.getElementById('month-title').textContent=MONTHS[currentMonth]+' '+currentYear;
-  const daysEl=document.getElementById('cal-days');daysEl.innerHTML='';
-  const first=new Date(currentYear,currentMonth,1);
-  const lastDay=new Date(currentYear,currentMonth+1,0).getDate();
-  const startDow=first.getDay();
-  const today=new Date();
-  const events=getData('events',{});
-  const prevLast=new Date(currentYear,currentMonth,0).getDate();
-  for(let i=0;i<startDow;i++){const d=document.createElement('div');d.className='cal-day other-month';d.textContent=prevLast-startDow+1+i;daysEl.appendChild(d);}
-  for(let d=1;d<=lastDay;d++){
-    const el=document.createElement('div');el.className='cal-day';el.textContent=d;
-    const dateStr=fmtDate(currentYear,currentMonth,d);
-    if(d===today.getDate()&&currentMonth===today.getMonth()&&currentYear===today.getFullYear())el.classList.add('today');
-    if(events[dateStr]&&events[dateStr].length>0)el.classList.add('has-event');
-    el.onclick=()=>openDayModal(currentYear,currentMonth,d);
-    daysEl.appendChild(el);
-  }
-  const total=startDow+lastDay,rem=total%7===0?0:7-(total%7);
-  for(let i=1;i<=rem;i++){const d=document.createElement('div');d.className='cal-day other-month';d.textContent=i;daysEl.appendChild(d);}
-  const monthKey=`${currentYear}-${String(currentMonth+1).padStart(2,'0')}`;
-  const mn=(getData('month_notes',{})[monthKey])||{};
-  document.getElementById('month-goals').value=mn.goals||'';
-  document.getElementById('month-spiritual').value=mn.spiritual||'';
-  document.getElementById('month-gratitude').value=mn.gratitude||'';
-  document.getElementById('month-finance').value=mn.finance||'';
-}
-
+function renderCalendar(){document.getElementById('month-title').textContent=MONTHS[currentMonth]+' '+currentYear;const daysEl=document.getElementById('cal-days');daysEl.innerHTML='';const first=new Date(currentYear,currentMonth,1);const lastDay=new Date(currentYear,currentMonth+1,0).getDate();const startDow=first.getDay();const today=new Date();const events=getData('events',{});const prevLast=new Date(currentYear,currentMonth,0).getDate();for(let i=0;i<startDow;i++){const d=document.createElement('div');d.className='cal-day other-month';d.textContent=prevLast-startDow+1+i;daysEl.appendChild(d);}for(let d=1;d<=lastDay;d++){const el=document.createElement('div');el.className='cal-day';el.textContent=d;const dateStr=fmtDate(currentYear,currentMonth,d);if(d===today.getDate()&&currentMonth===today.getMonth()&&currentYear===today.getFullYear())el.classList.add('today');if(events[dateStr]&&events[dateStr].length>0)el.classList.add('has-event');el.onclick=()=>openDayModal(currentYear,currentMonth,d);daysEl.appendChild(el);}const total=startDow+lastDay,rem=total%7===0?0:7-(total%7);for(let i=1;i<=rem;i++){const d=document.createElement('div');d.className='cal-day other-month';d.textContent=i;daysEl.appendChild(d);}const monthKey=`${currentYear}-${String(currentMonth+1).padStart(2,'0')}`;const mn=(getData('month_notes',{})[monthKey])||{};document.getElementById('month-goals').value=mn.goals||'';document.getElementById('month-spiritual').value=mn.spiritual||'';document.getElementById('month-gratitude').value=mn.gratitude||'';document.getElementById('month-finance').value=mn.finance||'';}
 function prevMonth(){currentMonth--;if(currentMonth<0){currentMonth=11;currentYear--;}renderCalendar();}
 function nextMonth(){currentMonth++;if(currentMonth>11){currentMonth=0;currentYear++;}renderCalendar();}
+function saveMonthNotes(){const monthKey=`${currentYear}-${String(currentMonth+1).padStart(2,'0')}`;const n=getData('month_notes',{});n[monthKey]={goals:document.getElementById('month-goals').value,spiritual:document.getElementById('month-spiritual').value,gratitude:document.getElementById('month-gratitude').value,finance:document.getElementById('month-finance').value};setData('month_notes',n);showSaveMsg('month-save-msg');}
 
-function saveMonthNotes(){
-  const monthKey=`${currentYear}-${String(currentMonth+1).padStart(2,'0')}`;
-  const monthNotes=getData('month_notes',{});
-  monthNotes[monthKey]={goals:document.getElementById('month-goals').value,spiritual:document.getElementById('month-spiritual').value,gratitude:document.getElementById('month-gratitude').value,finance:document.getElementById('month-finance').value};
-  setData('month_notes',monthNotes);showSaveMsg('month-save-msg');
-}
-
-// ========================
-// MODAL EVENTOS
-// ========================
-function openDayModal(y,m,d){
-  modalDateStr=fmtDate(y,m,d);
-  document.getElementById('modal-title').textContent=`${d} de ${MONTHS[m]}`;
-  document.getElementById('modal-date-sub').textContent=DAYS_LONG[new Date(y,m,d).getDay()]+' 💕';
-  renderEventList();
-  document.getElementById('modal-note').value=(getData('day_notes',{})[modalDateStr])||'';
-  document.getElementById('modal-overlay').classList.add('open');
-  setTimeout(()=>document.getElementById('new-event-input').focus(),100);
-}
+// MODAL
+function openDayModal(y,m,d){modalDateStr=fmtDate(y,m,d);document.getElementById('modal-title').textContent=`${d} de ${MONTHS[m]}`;document.getElementById('modal-date-sub').textContent=DAYS_LONG[new Date(y,m,d).getDay()]+' 💕';renderEventList();document.getElementById('modal-note').value=(getData('day_notes',{})[modalDateStr])||'';document.getElementById('modal-overlay').classList.add('open');setTimeout(()=>document.getElementById('new-event-input').focus(),100);}
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open');renderCalendar();}
 function closeModalOuter(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
-function renderEventList(){
-  const events=getData('events',{}),list=events[modalDateStr]||[];
-  const el=document.getElementById('event-list');el.innerHTML='';
-  if(!list.length){el.innerHTML='<p style="color:var(--text-light);font-size:.85rem;text-align:center;padding:8px;">Nenhum evento ainda 🌸</p>';return;}
-  list.forEach((ev,i)=>{const item=document.createElement('div');item.className='event-item';item.innerHTML=`<span>💕 ${ev}</span><button class="btn-del-event" onclick="delEvent(${i})">🗑️</button>`;el.appendChild(item);});
-}
-function addEvent(){
-  const input=document.getElementById('new-event-input'),text=input.value.trim();if(!text)return;
-  const events=getData('events',{});if(!events[modalDateStr])events[modalDateStr]=[];
-  events[modalDateStr].push(text);setData('events',events);input.value='';renderEventList();
-}
-function delEvent(i){
-  const events=getData('events',{});if(events[modalDateStr]){events[modalDateStr].splice(i,1);setData('events',events);renderEventList();}
-}
-function saveModalNoteAuto(){
-  if(!modalDateStr)return;
-  const dayNotes=getData('day_notes',{});dayNotes[modalDateStr]=document.getElementById('modal-note').value;
-  setData('day_notes',dayNotes);
-}
-function saveModalNote(){
-  saveModalNoteAuto();closeModal();
-}
+function renderEventList(){const events=getData('events',{}),list=events[modalDateStr]||[];const el=document.getElementById('event-list');el.innerHTML='';if(!list.length){el.innerHTML='<p style="color:var(--text-light);font-size:.85rem;text-align:center;padding:8px;">Nenhum evento ainda 🌸</p>';return;}list.forEach((ev,i)=>{const item=document.createElement('div');item.className='event-item';item.innerHTML=`<span>💕 ${ev}</span><button class="btn-del-event" onclick="delEvent(${i})">🗑️</button>`;el.appendChild(item);});}
+function addEvent(){const input=document.getElementById('new-event-input'),text=input.value.trim();if(!text)return;const events=getData('events',{});if(!events[modalDateStr])events[modalDateStr]=[];events[modalDateStr].push(text);setData('events',events);input.value='';renderEventList();}
+function delEvent(i){const events=getData('events',{});if(events[modalDateStr]){events[modalDateStr].splice(i,1);setData('events',events);renderEventList();}}
+function saveModalNote(){const n=getData('day_notes',{});n[modalDateStr]=document.getElementById('modal-note').value;setData('day_notes',n);closeModal();}
 
-// ========================
 // ANUAL
-// ========================
-function renderAnnual(){
-  document.getElementById('year-title').textContent=currentAnnualYear;
-  const grid=document.getElementById('year-months-grid');grid.innerHTML='';
-  const annualNotes=getData('annual_months',{});
-  MONTHS.forEach((m,i)=>{
-    const key=`${currentAnnualYear}-${String(i+1).padStart(2,'0')}`,note=annualNotes[key]||'';
-    const card=document.createElement('div');card.className='year-month-card'+(note?' has-note':'');
-    card.innerHTML=`<div class="ymcard-name">🌸 ${m}</div><div class="ymcard-preview">${note||'Toque para planejar...'}</div>`;
-    card.onclick=()=>openYearMonthModal(i);grid.appendChild(card);
-  });
-  const ag=(getData('annual_goals',{})[currentAnnualYear])||{};
-  document.getElementById('year-dreams').value=ag.dreams||'';
-  document.getElementById('year-spiritual').value=ag.spiritual||'';
-  document.getElementById('year-finance').value=ag.finance||'';
-  document.getElementById('year-family').value=ag.family||'';
-}
+function renderAnnual(){document.getElementById('year-title').textContent=currentAnnualYear;const grid=document.getElementById('year-months-grid');grid.innerHTML='';const annualNotes=getData('annual_months',{});MONTHS.forEach((m,i)=>{const key=`${currentAnnualYear}-${String(i+1).padStart(2,'0')}`,note=annualNotes[key]||'';const card=document.createElement('div');card.className='year-month-card'+(note?' has-note':'');card.innerHTML=`<div class="ymcard-name">🌸 ${m}</div><div class="ymcard-preview">${note||'Toque para planejar...'}</div>`;card.onclick=()=>openYearMonthModal(i);grid.appendChild(card);});const ag=(getData('annual_goals',{})[currentAnnualYear])||{};document.getElementById('year-dreams').value=ag.dreams||'';document.getElementById('year-spiritual').value=ag.spiritual||'';document.getElementById('year-finance').value=ag.finance||'';document.getElementById('year-family').value=ag.family||'';}
 function prevYear(){currentAnnualYear--;renderAnnual();}
 function nextYear(){currentAnnualYear++;renderAnnual();}
-function openYearMonthModal(idx){
-  yearMonthModalIdx=idx;
-  document.getElementById('ym-modal-title').textContent=MONTHS[idx]+' '+currentAnnualYear;
-  const key=`${currentAnnualYear}-${String(idx+1).padStart(2,'0')}`;
-  document.getElementById('ym-modal-ta').value=(getData('annual_months',{})[key])||'';
-  document.getElementById('year-month-modal').classList.add('open');
-  setTimeout(()=>document.getElementById('ym-modal-ta').focus(),100);
-}
-function closeYearModal(e){
-  if(!e||e.target===document.getElementById('year-month-modal'))
-    document.getElementById('year-month-modal').classList.remove('open');
-  renderAnnual();
-}
-function saveYearMonth(){
-  const key=`${currentAnnualYear}-${String(yearMonthModalIdx+1).padStart(2,'0')}`;
-  const annualNotes=getData('annual_months',{});annualNotes[key]=document.getElementById('ym-modal-ta').value;
-  setData('annual_months',annualNotes);document.getElementById('year-month-modal').classList.remove('open');renderAnnual();
-}
-function saveAnnual(){
-  const annualGoals=getData('annual_goals',{});
-  annualGoals[currentAnnualYear]={dreams:document.getElementById('year-dreams').value,spiritual:document.getElementById('year-spiritual').value,finance:document.getElementById('year-finance').value,family:document.getElementById('year-family').value};
-  setData('annual_goals',annualGoals);showSaveMsg('annual-save-msg');
-}
+function openYearMonthModal(idx){yearMonthModalIdx=idx;document.getElementById('ym-modal-title').textContent=MONTHS[idx]+' '+currentAnnualYear;const key=`${currentAnnualYear}-${String(idx+1).padStart(2,'0')}`;document.getElementById('ym-modal-ta').value=(getData('annual_months',{})[key])||'';document.getElementById('year-month-modal').classList.add('open');setTimeout(()=>document.getElementById('ym-modal-ta').focus(),100);}
+function closeYearModal(e){if(!e||e.target===document.getElementById('year-month-modal'))document.getElementById('year-month-modal').classList.remove('open');renderAnnual();}
+function saveYearMonth(){const key=`${currentAnnualYear}-${String(yearMonthModalIdx+1).padStart(2,'0')}`;const n=getData('annual_months',{});n[key]=document.getElementById('ym-modal-ta').value;setData('annual_months',n);document.getElementById('year-month-modal').classList.remove('open');renderAnnual();}
+function saveAnnual(){const g=getData('annual_goals',{});g[currentAnnualYear]={dreams:document.getElementById('year-dreams').value,spiritual:document.getElementById('year-spiritual').value,finance:document.getElementById('year-finance').value,family:document.getElementById('year-family').value};setData('annual_goals',g);showSaveMsg('annual-save-msg');}
 
-// Teclado
-document.addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&document.getElementById('login-screen').style.display!=='none'){
-    if(document.getElementById('form-login').style.display!=='none')doLogin();
-    else doRegister();
-  }
-});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('login-screen').style.display!=='none'){if(document.getElementById('form-login').style.display!=='none')doLogin();else doRegister();}});
 </script>
 </body>
 </html>
