@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🌸 Mulher Virtuosa</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#c9728a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Mulher Virtuosa">
+<link rel="apple-touch-icon" href="icon-192.png">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Quicksand:wght@300;400;500;600&display=swap');
@@ -262,9 +268,11 @@
     </div>
     <div class="header-user">
       <span id="header-username"></span>
+      <button id="btn-install" onclick="installApp()" style="display:none;background:linear-gradient(135deg,var(--rose-dark),var(--lilac));color:white;border:none;padding:7px 14px;border-radius:20px;font-family:'Quicksand',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;">📲 Instalar App</button>
       <button class="btn-logout" onclick="doLogout()">Sair</button>
     </div>
   </div>
+  <div id="autosave-toast" style="position:fixed;bottom:24px;right:24px;background:white;border-radius:20px;padding:10px 18px;box-shadow:0 4px 20px rgba(200,100,140,0.25);font-family:'Quicksand',sans-serif;font-size:.82rem;font-weight:600;color:#2e7d32;z-index:500;opacity:0;transition:opacity .4s;pointer-events:none;">✅ Salvo automaticamente</div>
 
   <div class="nav">
     <button class="nav-btn active" onclick="showSection('diary',this)">📖 Dia</button>
@@ -336,17 +344,13 @@
       <div class="card">
         <div class="diary-date-title" id="diary-date-title"></div>
         <div class="diary-section-label">📝 Como foi meu dia?</div>
-        <textarea class="diary-textarea" id="diary-text" rows="5" placeholder="Compartilhe com Deus e com você mesma como foi seu dia... 🌸"></textarea>
+        <textarea class="diary-textarea" id="diary-text" rows="5" placeholder="Compartilhe com Deus e com você mesma como foi seu dia... 🌸" oninput="autoSaveDiary()"></textarea>
         <div class="diary-section-label">💖 Gratidão ao Senhor</div>
-        <textarea class="diary-textarea" id="diary-gratitude" rows="3" placeholder="3 bênçãos que recebi hoje... ✨"></textarea>
+        <textarea class="diary-textarea" id="diary-gratitude" rows="3" placeholder="3 bênçãos que recebi hoje... ✨" oninput="autoSaveDiary()"></textarea>
         <div class="diary-section-label">🙏 Pedido de oração</div>
-        <textarea class="diary-textarea" id="diary-prayer" rows="2" placeholder="O que quero levar ao Senhor em oração? 🌷"></textarea>
+        <textarea class="diary-textarea" id="diary-prayer" rows="2" placeholder="O que quero levar ao Senhor em oração? 🌷" oninput="autoSaveDiary()"></textarea>
         <div class="diary-section-label">🌙 Propósito para amanhã</div>
-        <textarea class="diary-textarea" id="diary-goal" rows="2" placeholder="O que Deus está me chamando a fazer amanhã? 🌺"></textarea>
-        <div style="display:flex;align-items:center;">
-          <button class="btn-save" onclick="saveDiary()">💾 Salvar meu dia</button>
-          <span class="save-msg" id="save-msg">✅ Salvo!</span>
-        </div>
+        <textarea class="diary-textarea" id="diary-goal" rows="2" placeholder="O que Deus está me chamando a fazer amanhã? 🌺" oninput="autoSaveDiary()"></textarea>
       </div>
     </div>
 
@@ -366,21 +370,13 @@
       </div>
       <div class="card" style="margin-bottom:20px;">
         <div class="card-title">🎯 Propósitos da Semana</div>
-        <textarea class="obj-textarea" id="week-objectives" rows="4" placeholder="O que Deus colocou no meu coração para essa semana?&#10;• Propósito 1&#10;• Propósito 2&#10;• Propósito 3"></textarea>
-        <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end;">
-          <button class="btn-save" style="padding:10px 20px;font-size:.85rem;" onclick="saveWeekObjectives()">Salvar propósitos</button>
-          <span class="save-msg" id="week-obj-msg">✅ Salvo!</span>
-        </div>
+        <textarea class="obj-textarea" id="week-objectives" rows="4" placeholder="O que Deus colocou no meu coração para essa semana?&#10;• Propósito 1&#10;• Propósito 2&#10;• Propósito 3" oninput="autoSaveWeekObj()"></textarea>
       </div>
       <div class="bible-msg-box" style="margin-bottom:20px;">
         <div id="week-verse-text"></div>
         <div class="bible-msg-ref" id="week-verse-ref"></div>
       </div>
       <div class="week-grid" id="week-grid"></div>
-      <div style="display:flex;justify-content:center;margin-top:4px;">
-        <button class="btn-save" onclick="saveWeekNotes()">💾 Salvar semana</button>
-        <span class="save-msg" id="week-save-msg" style="margin-left:12px;">✅ Salvo!</span>
-      </div>
     </div>
 
     <!-- MÊS -->
@@ -406,24 +402,20 @@
       <div class="month-goals-grid">
         <div class="month-goal-card">
           <div class="month-goal-label">🎯 Metas do mês</div>
-          <textarea class="month-goal-ta" id="month-goals" placeholder="O que Deus colocou no meu coração para esse mês..."></textarea>
+          <textarea class="month-goal-ta" id="month-goals" placeholder="O que Deus colocou no meu coração para esse mês..." oninput="autoSaveMonth()"></textarea>
         </div>
         <div class="month-goal-card green-top">
           <div class="month-goal-label">✝️ Compromissos com a Igreja</div>
-          <textarea class="month-goal-ta" id="month-spiritual" placeholder="Cultos, células, voluntariado, dízimo, evangelismo..."></textarea>
+          <textarea class="month-goal-ta" id="month-spiritual" placeholder="Cultos, células, voluntariado, dízimo, evangelismo..." oninput="autoSaveMonth()"></textarea>
         </div>
         <div class="month-goal-card gold-top">
           <div class="month-goal-label">🙏 Graças ao Senhor</div>
-          <textarea class="month-goal-ta" id="month-gratitude" placeholder="O que Deus fez por mim esse mês..."></textarea>
+          <textarea class="month-goal-ta" id="month-gratitude" placeholder="O que Deus fez por mim esse mês..." oninput="autoSaveMonth()"></textarea>
         </div>
         <div class="month-goal-card lilac-top">
           <div class="month-goal-label">💰 Mordomia & Finanças</div>
-          <textarea class="month-goal-ta" id="month-finance" placeholder="Dízimo, ofertas, orçamento, contas..."></textarea>
+          <textarea class="month-goal-ta" id="month-finance" placeholder="Dízimo, ofertas, orçamento, contas..." oninput="autoSaveMonth()"></textarea>
         </div>
-      </div>
-      <div style="display:flex;justify-content:center;margin-top:16px;">
-        <button class="btn-save" onclick="saveMonthNotes()">💾 Salvar mês</button>
-        <span class="save-msg" id="month-save-msg" style="margin-left:12px;">✅ Salvo!</span>
       </div>
     </div>
 
@@ -448,24 +440,20 @@
       <div class="year-summary-grid">
         <div class="month-goal-card">
           <div class="month-goal-label">🌟 Sonhos & Visão do Ano</div>
-          <textarea class="month-goal-ta" style="min-height:120px;" id="year-dreams" placeholder="O que Deus tem falado ao meu coração para esse ano?"></textarea>
+          <textarea class="month-goal-ta" style="min-height:120px;" id="year-dreams" placeholder="O que Deus tem falado ao meu coração para esse ano?" oninput="autoSaveAnnual()"></textarea>
         </div>
         <div class="month-goal-card green-top">
           <div class="month-goal-label">✝️ Metas Espirituais</div>
-          <textarea class="month-goal-ta" style="min-height:120px;" id="year-spiritual" placeholder="Ler a Bíblia, jejuns, servir na igreja, evangelismo..."></textarea>
+          <textarea class="month-goal-ta" style="min-height:120px;" id="year-spiritual" placeholder="Ler a Bíblia, jejuns, servir na igreja, evangelismo..." oninput="autoSaveAnnual()"></textarea>
         </div>
         <div class="month-goal-card gold-top">
           <div class="month-goal-label">💰 Mordomia Financeira</div>
-          <textarea class="month-goal-ta" style="min-height:120px;" id="year-finance" placeholder="Dízimo, poupança, investimentos, bênçãos financeiras..."></textarea>
+          <textarea class="month-goal-ta" style="min-height:120px;" id="year-finance" placeholder="Dízimo, poupança, investimentos, bênçãos financeiras..." oninput="autoSaveAnnual()"></textarea>
         </div>
         <div class="month-goal-card lilac-top">
           <div class="month-goal-label">💖 Família & Relacionamentos</div>
-          <textarea class="month-goal-ta" style="min-height:120px;" id="year-family" placeholder="O que Deus quer para minha família esse ano..."></textarea>
+          <textarea class="month-goal-ta" style="min-height:120px;" id="year-family" placeholder="O que Deus quer para minha família esse ano..." oninput="autoSaveAnnual()"></textarea>
         </div>
-      </div>
-      <div style="display:flex;justify-content:center;margin-top:16px;">
-        <button class="btn-save" onclick="saveAnnual()">💾 Salvar planejamento anual</button>
-        <span class="save-msg" id="annual-save-msg" style="margin-left:12px;">✅ Salvo!</span>
       </div>
     </div>
 
@@ -488,8 +476,7 @@
     </div>
     <div style="margin-top:16px;">
       <div class="diary-section-label">📝 Anotação do dia</div>
-      <textarea class="modal-ta" id="modal-note" placeholder="Anotações sobre esse dia..."></textarea>
-      <button class="btn-save" style="font-size:.85rem;padding:10px 20px;" onclick="saveModalNote()">Salvar anotação</button>
+      <textarea class="modal-ta" id="modal-note" placeholder="Anotações sobre esse dia..." oninput="autoSaveModalNote()"></textarea>
     </div>
   </div>
 </div>
@@ -501,8 +488,7 @@
     <div class="modal-title" id="ym-modal-title"></div>
     <div style="margin-top:12px;">
       <div class="diary-section-label">🎯 Planos para esse mês</div>
-      <textarea class="modal-ta" id="ym-modal-ta" rows="6" placeholder="O que está planejado?"></textarea>
-      <button class="btn-save" style="font-size:.85rem;padding:10px 20px;" onclick="saveYearMonth()">Salvar</button>
+      <textarea class="modal-ta" id="ym-modal-ta" rows="6" placeholder="O que está planejado?" oninput="autoSaveYearMonth()"></textarea>
     </div>
   </div>
 </div>
@@ -521,7 +507,7 @@ const sb=supabase.createClient(SUPA_URL,SUPA_KEY);
 const MONTHS=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const DAYS_LONG=['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
 const DAYS_SHORT=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-const HOURS=['05:00','06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00'];
+const HOURS=['05:00','05:30','06:00','06:30','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30'];
 
 // ========================
 // DEVOCIONAIS EVANGÉLICOS
@@ -626,7 +612,7 @@ async function saveAuth(u,p){await sb.from('planner_data').upsert({user_id:'_aut
 function fmtDate(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
 function ptDate(s){const dt=new Date(s+'T00:00:00');return `${DAYS_LONG[dt.getDay()]}, ${dt.getDate()} de ${MONTHS[dt.getMonth()]} de ${dt.getFullYear()}`;}
 function dayOfYear(d){return Math.floor((d-new Date(d.getFullYear(),0,0))/86400000);}
-function showSaveMsg(id){const el=document.getElementById(id);el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200);}
+function showSaveMsg(id){const el=document.getElementById(id);if(!el)return;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200);}
 
 // PETALS
 (function(){const c=document.getElementById('petals');const e=['🌸','🌷','💮','✿','🌺'];for(let i=0;i<12;i++){const p=document.createElement('div');p.className='petal';p.textContent=e[Math.floor(Math.random()*e.length)];p.style.left=Math.random()*100+'%';p.style.animationDuration=(10+Math.random()*15)+'s';p.style.animationDelay=(-Math.random()*20)+'s';p.style.fontSize=(0.8+Math.random())+'rem';c.appendChild(p);}})();
@@ -683,7 +669,7 @@ function showSection(name,btn){document.querySelectorAll('.section').forEach(s=>
 // ========================
 function initDiary(){const now=new Date();const ds=fmtDate(now.getFullYear(),now.getMonth(),now.getDate());document.getElementById('diary-date').value=ds;document.getElementById('diary-today-date').textContent=ptDate(ds);buildHourSlots();buildMoodThermometer();renderDevotion(now);renderLouvor(now);renderBiblePlan(now);loadDiary();}
 
-function buildHourSlots(){const c=document.getElementById('diary-hours');c.innerHTML='';HOURS.forEach(h=>{const s=document.createElement('div');s.className='hour-slot-v';s.innerHTML=`<div class="hour-label-v">${h}</div><input class="hour-input-v" type="text" data-hour="${h}" placeholder="...">`;c.appendChild(s);});}
+function buildHourSlots(){const c=document.getElementById('diary-hours');c.innerHTML='';HOURS.forEach(h=>{const s=document.createElement('div');s.className='hour-slot-v';s.innerHTML=`<div class="hour-label-v">${h}</div><input class="hour-input-v" type="text" data-hour="${h}" placeholder="...">`;c.appendChild(s);});c.querySelectorAll('.hour-input-v').forEach(inp=>inp.addEventListener('input',autoSaveDiary));}
 
 function buildMoodThermometer(){const c=document.getElementById('mood-thermometer');c.innerHTML='';MOODS.forEach(m=>{const btn=document.createElement('button');btn.className='mood-item';btn.dataset.mood=m.emoji;btn.innerHTML=`${m.emoji}<span class="mood-label">${m.label}</span>`;btn.onclick=()=>{document.querySelectorAll('.mood-item').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');selectedMood=m.emoji;document.getElementById('mood-selected-label').textContent='Humor: '+m.emoji+' '+m.label;};c.appendChild(btn);});}
 
@@ -703,7 +689,7 @@ function saveBibleCheck(){const dateStr=document.getElementById('diary-date').va
 // SEMANAL
 // ========================
 function getMonday(date){const d=new Date(date),day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);d.setDate(diff);d.setHours(0,0,0,0);return d;}
-function renderWeek(){const monday=new Date(currentWeekStart);const sunday=new Date(monday);sunday.setDate(sunday.getDate()+6);const fmt=d=>`${d.getDate()}/${d.getMonth()+1}`;document.getElementById('week-title').textContent=`${fmt(monday)} – ${fmt(sunday)}`;const weekKey=fmtDate(monday.getFullYear(),monday.getMonth(),monday.getDate());document.getElementById('week-objectives').value=(getData('week_objectives',{})[weekKey])||'';const vIdx=Math.floor(monday.getTime()/604800000)%WEEK_VERSES.length;document.getElementById('week-verse-text').textContent=WEEK_VERSES[vIdx].text;document.getElementById('week-verse-ref').textContent=WEEK_VERSES[vIdx].ref;const grid=document.getElementById('week-grid');grid.innerHTML='';const today=new Date();today.setHours(0,0,0,0);const weekNotes=getData('week_notes',{});for(let i=0;i<7;i++){const d=new Date(monday);d.setDate(d.getDate()+i);const dateStr=fmtDate(d.getFullYear(),d.getMonth(),d.getDate());const isToday=d.getTime()===today.getTime();const card=document.createElement('div');card.className='week-day-card'+(isToday?' today-card':'');card.innerHTML=`<div class="week-day-name">${DAYS_SHORT[d.getDay()]}</div><div class="week-day-num">${d.getDate()}</div><textarea class="week-task-input" data-date="${dateStr}" placeholder="Planos do dia 🌸">${weekNotes[dateStr]||''}</textarea>`;grid.appendChild(card);}}
+function renderWeek(){const monday=new Date(currentWeekStart);const sunday=new Date(monday);sunday.setDate(sunday.getDate()+6);const fmt=d=>`${d.getDate()}/${d.getMonth()+1}`;document.getElementById('week-title').textContent=`${fmt(monday)} – ${fmt(sunday)}`;const weekKey=fmtDate(monday.getFullYear(),monday.getMonth(),monday.getDate());document.getElementById('week-objectives').value=(getData('week_objectives',{})[weekKey])||'';const vIdx=Math.floor(monday.getTime()/604800000)%WEEK_VERSES.length;document.getElementById('week-verse-text').textContent=WEEK_VERSES[vIdx].text;document.getElementById('week-verse-ref').textContent=WEEK_VERSES[vIdx].ref;const grid=document.getElementById('week-grid');grid.innerHTML='';const today=new Date();today.setHours(0,0,0,0);const weekNotes=getData('week_notes',{});for(let i=0;i<7;i++){const d=new Date(monday);d.setDate(d.getDate()+i);const dateStr=fmtDate(d.getFullYear(),d.getMonth(),d.getDate());const isToday=d.getTime()===today.getTime();const card=document.createElement('div');card.className='week-day-card'+(isToday?' today-card':'');card.innerHTML=`<div class="week-day-name">${DAYS_SHORT[d.getDay()]}</div><div class="week-day-num">${d.getDate()}</div><textarea class="week-task-input" data-date="${dateStr}" placeholder="Planos do dia 🌸">${weekNotes[dateStr]||''}</textarea>`;card.querySelector('textarea').addEventListener('input',autoSaveWeekNotes);grid.appendChild(card);}}
 function saveWeekObjectives(){const monday=new Date(currentWeekStart);const weekKey=fmtDate(monday.getFullYear(),monday.getMonth(),monday.getDate());const o=getData('week_objectives',{});o[weekKey]=document.getElementById('week-objectives').value;setData('week_objectives',o);showSaveMsg('week-obj-msg');}
 function saveWeekNotes(){const n=getData('week_notes',{});document.querySelectorAll('.week-task-input').forEach(ta=>{n[ta.dataset.date]=ta.value;});setData('week_notes',n);showSaveMsg('week-save-msg');}
 function prevWeek(){currentWeekStart.setDate(currentWeekStart.getDate()-7);renderWeek();}
@@ -719,23 +705,65 @@ function saveMonthNotes(){const monthKey=`${currentYear}-${String(currentMonth+1
 
 // MODAL
 function openDayModal(y,m,d){modalDateStr=fmtDate(y,m,d);document.getElementById('modal-title').textContent=`${d} de ${MONTHS[m]}`;document.getElementById('modal-date-sub').textContent=DAYS_LONG[new Date(y,m,d).getDay()]+' 💕';renderEventList();document.getElementById('modal-note').value=(getData('day_notes',{})[modalDateStr])||'';document.getElementById('modal-overlay').classList.add('open');setTimeout(()=>document.getElementById('new-event-input').focus(),100);}
-function closeModal(){document.getElementById('modal-overlay').classList.remove('open');renderCalendar();}
+function closeModal(){persistModalNote();document.getElementById('modal-overlay').classList.remove('open');renderCalendar();}
 function closeModalOuter(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
 function renderEventList(){const events=getData('events',{}),list=events[modalDateStr]||[];const el=document.getElementById('event-list');el.innerHTML='';if(!list.length){el.innerHTML='<p style="color:var(--text-light);font-size:.85rem;text-align:center;padding:8px;">Nenhum evento ainda 🌸</p>';return;}list.forEach((ev,i)=>{const item=document.createElement('div');item.className='event-item';item.innerHTML=`<span>💕 ${ev}</span><button class="btn-del-event" onclick="delEvent(${i})">🗑️</button>`;el.appendChild(item);});}
 function addEvent(){const input=document.getElementById('new-event-input'),text=input.value.trim();if(!text)return;const events=getData('events',{});if(!events[modalDateStr])events[modalDateStr]=[];events[modalDateStr].push(text);setData('events',events);input.value='';renderEventList();}
 function delEvent(i){const events=getData('events',{});if(events[modalDateStr]){events[modalDateStr].splice(i,1);setData('events',events);renderEventList();}}
-function saveModalNote(){const n=getData('day_notes',{});n[modalDateStr]=document.getElementById('modal-note').value;setData('day_notes',n);closeModal();}
+function persistModalNote(){const n=getData('day_notes',{});n[modalDateStr]=document.getElementById('modal-note').value;setData('day_notes',n);}
+function saveModalNote(){persistModalNote();closeModal();}
 
 // ANUAL
 function renderAnnual(){document.getElementById('year-title').textContent=currentAnnualYear;const grid=document.getElementById('year-months-grid');grid.innerHTML='';const annualNotes=getData('annual_months',{});MONTHS.forEach((m,i)=>{const key=`${currentAnnualYear}-${String(i+1).padStart(2,'0')}`,note=annualNotes[key]||'';const card=document.createElement('div');card.className='year-month-card'+(note?' has-note':'');card.innerHTML=`<div class="ymcard-name">🌸 ${m}</div><div class="ymcard-preview">${note||'Toque para planejar...'}</div>`;card.onclick=()=>openYearMonthModal(i);grid.appendChild(card);});const ag=(getData('annual_goals',{})[currentAnnualYear])||{};document.getElementById('year-dreams').value=ag.dreams||'';document.getElementById('year-spiritual').value=ag.spiritual||'';document.getElementById('year-finance').value=ag.finance||'';document.getElementById('year-family').value=ag.family||'';}
 function prevYear(){currentAnnualYear--;renderAnnual();}
 function nextYear(){currentAnnualYear++;renderAnnual();}
 function openYearMonthModal(idx){yearMonthModalIdx=idx;document.getElementById('ym-modal-title').textContent=MONTHS[idx]+' '+currentAnnualYear;const key=`${currentAnnualYear}-${String(idx+1).padStart(2,'0')}`;document.getElementById('ym-modal-ta').value=(getData('annual_months',{})[key])||'';document.getElementById('year-month-modal').classList.add('open');setTimeout(()=>document.getElementById('ym-modal-ta').focus(),100);}
-function closeYearModal(e){if(!e||e.target===document.getElementById('year-month-modal'))document.getElementById('year-month-modal').classList.remove('open');renderAnnual();}
-function saveYearMonth(){const key=`${currentAnnualYear}-${String(yearMonthModalIdx+1).padStart(2,'0')}`;const n=getData('annual_months',{});n[key]=document.getElementById('ym-modal-ta').value;setData('annual_months',n);document.getElementById('year-month-modal').classList.remove('open');renderAnnual();}
-function saveAnnual(){const g=getData('annual_goals',{});g[currentAnnualYear]={dreams:document.getElementById('year-dreams').value,spiritual:document.getElementById('year-spiritual').value,finance:document.getElementById('year-finance').value,family:document.getElementById('year-family').value};setData('annual_goals',g);showSaveMsg('annual-save-msg');}
+function closeYearModal(e){if(!e||e.target===document.getElementById('year-month-modal')){persistYearMonth();document.getElementById('year-month-modal').classList.remove('open');renderAnnual();}}
+function persistYearMonth(){const key=`${currentAnnualYear}-${String(yearMonthModalIdx+1).padStart(2,'0')}`;const n=getData('annual_months',{});n[key]=document.getElementById('ym-modal-ta').value;setData('annual_months',n);}
+function saveYearMonth(){persistYearMonth();}
+function saveAnnual(){const g=getData('annual_goals',{});g[currentAnnualYear]={dreams:document.getElementById('year-dreams').value,spiritual:document.getElementById('year-spiritual').value,finance:document.getElementById('year-finance').value,family:document.getElementById('year-family').value};setData('annual_goals',g);}
 
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&document.getElementById('login-screen').style.display!=='none'){if(document.getElementById('form-login').style.display!=='none')doLogin();else doRegister();}});
+
+// ========================
+// AUTO-SAVE (debounce)
+// ========================
+function debounce(fn,ms=1400){let t;return(...args)=>{clearTimeout(t);t=setTimeout(()=>fn(...args),ms);};}
+function showAutoToast(){const el=document.getElementById('autosave-toast');if(!el)return;el.style.opacity='1';clearTimeout(el._t);el._t=setTimeout(()=>{el.style.opacity='0';},2000);}
+const autoSaveDiary=debounce(()=>{saveDiary();showAutoToast();});
+const autoSaveWeekObj=debounce(()=>{saveWeekObjectives();showAutoToast();});
+const autoSaveWeekNotes=debounce(()=>{saveWeekNotes();showAutoToast();});
+const autoSaveMonth=debounce(()=>{saveMonthNotes();showAutoToast();});
+const autoSaveAnnual=debounce(()=>{saveAnnual();showAutoToast();});
+const autoSaveModalNote=debounce(()=>{persistModalNote();showAutoToast();});
+const autoSaveYearMonth=debounce(()=>{persistYearMonth();showAutoToast();});
+
+// ========================
+// PWA — INSTALAÇÃO
+// ========================
+let deferredInstallPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();deferredInstallPrompt=e;
+  const btn=document.getElementById('btn-install');
+  if(btn)btn.style.display='flex';
+});
+window.addEventListener('appinstalled',()=>{
+  deferredInstallPrompt=null;
+  const btn=document.getElementById('btn-install');
+  if(btn)btn.style.display='none';
+});
+function installApp(){
+  if(!deferredInstallPrompt)return;
+  deferredInstallPrompt.prompt();
+  deferredInstallPrompt.userChoice.then(()=>{
+    deferredInstallPrompt=null;
+    const btn=document.getElementById('btn-install');
+    if(btn)btn.style.display='none';
+  });
+}
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});
+}
 </script>
 </body>
 </html>
